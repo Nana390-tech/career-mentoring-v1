@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Career Mentor Prep</title>
+<style>
+/* Theme: navy + lime (new for this series) */
+:root{
+  --navy:#16244a; --navy2:#22366b; --lime:#8cc63f; --lime2:#6fa52a; --limeSoft:#eef7e1;
+  --sky:#e8eefc; --ink:#1b2236; --muted:#5d6782; --line:#d7deef; --bg:#f5f7fc; --card:#ffffff;
+  --warn:#e0a21b; --bad:#d4504a;
+  --font:"Segoe UI",Tahoma,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:16px;line-height:1.55}
+header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:22px 16px 18px}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding:0}
+.brand small{display:block;color:var(--lime);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+.brand h1{margin:2px 0 0;font-size:clamp(22px,4vw,30px);line-height:1.2}
+.stats{display:flex;gap:10px;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px}
+.pill b{color:var(--lime)}
+.progress{height:8px;background:rgba(255,255,255,.18);border-radius:99px;margin-top:14px;overflow:hidden;max-width:980px;margin-inline:auto}
+.progress i{display:block;height:100%;width:0;background:var(--lime);transition:width .4s}
+nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 2px 8px rgba(22,36,74,.06)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px}
+nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--navy);border-radius:999px;padding:7px 13px;font:600 14px var(--font);cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+nav button.done::after{content:" ✓";color:var(--lime2)}
+nav button.on.done::after{color:var(--lime)}
+main{padding-block:24px 40px}
+section{display:none}
+section.on{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){section.on{animation:none}.progress i{transition:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.step-tag{display:inline-block;background:var(--limeSoft);color:var(--lime2);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:6px}
+h2{margin:8px 0 6px;color:var(--navy);font-size:24px}
+h3{margin:0 0 8px;color:var(--navy);font-size:18px}
+p.lead{color:var(--muted);margin:0 0 4px}
+label{display:block;font-weight:600;margin:14px 0 6px;color:var(--navy)}
+.hint{font-weight:400;color:var(--muted);font-size:14px}
+input[type=text],input[type=date],input[type=url],select,textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font:16px var(--font);color:var(--ink);background:#fff}
+textarea{min-height:76px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid var(--lime);outline-offset:1px;border-color:var(--lime2)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 16px}
+.keys{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.key{background:var(--sky);border-radius:8px;padding:5px 10px;font-size:14px}
+.key span{font-family:Tahoma,Arial,sans-serif;color:var(--navy2);font-weight:700;margin-left:6px}
+.tip{background:var(--limeSoft);border-left:4px solid var(--lime);padding:10px 14px;border-radius:8px;margin-top:14px;font-size:15px}
+.model{background:var(--sky);border-radius:10px;padding:12px 14px;margin-top:10px;font-style:italic}
+.preview{background:#fff;border:2px dashed var(--lime);border-radius:10px;padding:14px;margin-top:14px;min-height:56px}
+.preview:empty::before{content:"Your text will appear here as you type…";color:var(--muted)}
+.btn{border:0;border-radius:10px;padding:11px 18px;font:700 15px var(--font);cursor:pointer;background:var(--navy);color:#fff}
+.btn.lime{background:var(--lime);color:var(--navy)}
+.btn.ghost{background:var(--card);color:var(--navy);border:1.5px solid var(--navy)}
+.btn:hover{filter:brightness(1.08)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:16px}
+.navrow{display:flex;justify-content:space-between;gap:10px;margin-top:8px}
+.check{display:grid;grid-template-columns:28px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.check:last-child{border-bottom:0}
+.check input{width:22px;height:22px;accent-color:var(--lime2);margin-top:2px}
+.check b{color:var(--navy)}
+.check .hint{display:block}
+.bullet{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+.timer{font:800 48px/1 var(--font);color:var(--navy);font-variant-numeric:tabular-nums}
+.timer.good{color:var(--lime2)} .timer.long{color:var(--bad)}
+.tries{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.stars{display:flex;gap:6px;margin-top:6px}
+.stars button{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font:700 16px var(--font);cursor:pointer;color:var(--navy)}
+.stars button.on{background:var(--lime);border-color:var(--lime2)}
+.badges{display:flex;flex-wrap:wrap;gap:10px}
+.badge{display:flex;align-items:center;gap:8px;border:1.5px dashed var(--line);border-radius:12px;padding:8px 12px;color:var(--muted);font-weight:600;font-size:14px}
+.badge i{font-style:normal;font-size:22px;filter:grayscale(1);opacity:.4}
+.badge.got{border:1.5px solid var(--lime);background:var(--limeSoft);color:var(--navy)}
+.badge.got i{filter:none;opacity:1}
+.sum h3{border-bottom:2px solid var(--lime);padding-bottom:4px;margin-top:18px}
+.sum p,.sum li{margin:4px 0}
+.sum .empty{color:var(--muted);font-style:italic}
+.cert{border:4px double var(--navy);border-radius:14px;padding:22px;text-align:center;background:linear-gradient(180deg,#fff,var(--limeSoft));margin-top:16px}
+.cert h2{font-size:26px;margin:4px 0}
+.cert .nm{font-size:24px;font-weight:800;color:var(--lime2);margin:8px 0}
+.modal{position:fixed;inset:0;background:rgba(22,36,74,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.modal[hidden]{display:none}
+.modal .box{background:#fff;border-radius:16px;max-width:620px;width:100%;max-height:85vh;overflow:auto;padding:20px}
+table.gl{width:100%;border-collapse:collapse}
+table.gl td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.gl td:last-child{direction:rtl;text-align:right;font-family:Tahoma,Arial,sans-serif;font-weight:700;color:var(--navy2)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;font-weight:700;z-index:30;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.toast[hidden]{display:none}
+.helpbtn{margin-top:8px;border:1.5px solid var(--lime2);background:var(--limeSoft);color:var(--navy);border-radius:999px;padding:5px 12px;font:700 13px var(--font);cursor:pointer}
+.helpbtn span{font-family:Tahoma,Arial,sans-serif;color:var(--lime2);margin-left:4px}
+.helpbtn[aria-expanded=true]{background:var(--lime)}
+.helppanel{background:#fbfdf7;border:1.5px solid var(--lime);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:15px}
+.helppanel[hidden]{display:none}
+.hsec{margin-bottom:10px}.hsec:last-child{margin-bottom:0}
+.hsec ul{margin:6px 0 0;padding-left:20px}.hsec li{margin:3px 0}
+.hsec>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.hgroup{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.hlab{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;width:100%}
+.hchip{border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:8px;padding:6px 10px;font:500 14px var(--font);cursor:pointer;text-align:left}
+.hchip:hover{border-color:var(--lime2);background:var(--limeSoft)}
+.hchip.frame{border-style:dashed}
+.savebtn{cursor:pointer;color:var(--navy)!important;background:var(--lime)!important;border-color:var(--lime)!important;font:700 14px var(--font)}
+.savebtn.unsaved{animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(140,198,63,.7)}50%{box-shadow:0 0 0 6px rgba(140,198,63,0)}}
+@media (prefers-reduced-motion:reduce){.savebtn.unsaved{animation:none;outline:2px solid #fff}}
+.savestate{max-width:980px;margin:8px auto 0;font-size:13px;color:#d6def3}
+.savestate b{color:var(--lime)}
+.modeBtn.on{background:var(--navy);color:#fff}
+.recvid{width:100%;max-width:480px;border-radius:12px;background:#000;margin-top:12px;display:block}
+.recvid[hidden]{display:none}
+.take{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px}
+.take audio{width:100%;margin-top:8px}
+.recdot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--bad);margin-right:6px;animation:pulse 1s infinite}
+.layout{max-width:1220px;display:grid;grid-template-columns:minmax(0,1fr);gap:0 20px}
+.layout>.content{min-width:0}
+.layout>.navrow{grid-column:1/-1}
+.guide{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--lime);border-radius:14px;padding:16px 18px;margin-bottom:16px}
+.guide h3{margin:0 0 2px;font-size:17px}
+.guide .gtime{color:var(--muted);font-size:14px;margin-bottom:8px}
+.guide ol{list-style:none;margin:8px 0 0;padding:0;counter-reset:g}
+.guide li{counter-increment:g;display:grid;grid-template-columns:30px 1fr;gap:8px;padding:8px 0;border-top:1px dashed var(--line);align-items:start}
+.guide li::before{content:counter(g);width:26px;height:26px;border-radius:50%;background:var(--sky);color:var(--navy);font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+.guide li.ok::before{content:"✓";background:var(--lime);color:var(--navy)}
+.guide li.ok span{color:var(--muted)}
+.guide li small{display:block;color:var(--muted)}
+.guide .gbar{height:6px;background:var(--sky);border-radius:99px;margin-top:10px;overflow:hidden}.guide .gbar i{display:block;height:100%;background:var(--lime);width:0;transition:width .3s}
+.guide .gdone{margin-top:10px;font-weight:700;color:var(--lime2)}
+.guide .gtoggle{display:none}
+@media (min-width:1000px){.layout{grid-template-columns:minmax(0,1fr) 300px}.guide{grid-column:2;grid-row:1;position:sticky;top:70px;align-self:start;max-height:calc(100vh - 90px);overflow:auto}.layout>.content{grid-column:1;grid-row:1}}
+@media (max-width:999px){.guide .gtoggle{display:inline-block;float:right;border:0;background:none;color:var(--navy2);font:700 14px var(--font);cursor:pointer}.guide.closed ol,.guide.closed .gbar,.guide.closed .gdone{display:none}}
+canvas#cf{position:fixed;inset:0;pointer-events:none;z-index:25}
+footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30px}
+@media print{
+  header,nav,.navrow,.row.noprint,footer,.noprint,.modal,.toast,canvas{display:none!important}
+  body{background:#fff}
+  section{display:none!important}
+  section#s-copy{display:block!important}
+  .card{border:0;padding:0}
+  .cert{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<canvas id="cf"></canvas>
+<input type="file" id="loadF" accept=".json,application/json" hidden onchange="loadJSON(this)">
+<header>
+  <div class="wrap">
+    <div class="brand"><small>LSC 1503 · Career Mentorship</small><h1>Career Mentor Prep</h1></div>
+    <div class="stats">
+      <span class="pill">Points: <b id="pts">0</b></span>
+      <span class="pill">Badges: <b id="bdg">0</b>/7</span>
+      <span class="pill">Ready: <b id="pct">0%</b></span>
+      <button class="pill" style="cursor:pointer;color:#fff;font:600 14px var(--font)" onclick="openGloss()">EN / عربي Glossary</button>
+      <button class="pill savebtn" type="button" id="hSave" onclick="saveJSON()">💾 Save my work</button>
+      <button class="pill savebtn" type="button" onclick="document.getElementById('loadF').click()">📂 Load my work</button>
+    </div>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="savestate" id="saveState">Start typing. Save your work often — it downloads a file to your device.</div>
+</header>
+<nav><div class="wrap" id="tabs"></div></nav>
+
+<main class="wrap layout">
+<aside class="guide noprint" id="guide" aria-label="Steps for this page"></aside>
+<div class="content">
+
+<!-- 1 ABOUT ME -->
+<section id="s-me" data-title="1. About me">
+  <div class="card">
+    <span class="step-tag">Step 1 · Before the meeting</span>
+    <h2>About me</h2>
+    <p class="lead">You will meet your teacher for 15 minutes about your CV and career. Prepare here first, then bring this app to the meeting.</p>
+    <div class="grid2">
+      <div><label for="f-name">Full name</label><input id="f-name" type="text" data-k="me.name" placeholder="e.g. Mariam Ali"></div>
+      <div><label for="f-id">Student ID</label><input id="f-id" type="text" data-k="me.id" placeholder="H00…"></div>
+      <div><label for="f-prog">Programme / major</label><input id="f-prog" type="text" data-k="me.prog" placeholder="e.g. Business – HR"></div>
+      <div><label for="f-date">Meeting date</label><input id="f-date" type="date" data-k="me.date"></div>
+    </div>
+    <div class="tip"><b>Save your work!</b> Use <b>Save my work</b> in the last step to download a file. Next time, use <b>Load my work</b> to continue.</div>
+  </div>
+</section>
+
+<!-- 2 GOAL -->
+<section id="s-goal" data-title="2. Career goal">
+  <div class="card">
+    <span class="step-tag">Step 2 · Before the meeting</span>
+    <h2>My career goal</h2>
+    <p class="lead">Your teacher will ask: <i>"What kind of job do you see yourself in after HCT?"</i></p>
+    <label for="f-job">The job I want <span class="hint">(job title)</span></label>
+    <input id="f-job" type="text" data-k="goal.job" placeholder="e.g. HR Assistant, Data Analyst, Customs Officer">
+    <label for="f-field">The field / industry</label>
+    <input id="f-field" type="text" data-k="goal.field" placeholder="e.g. banking, aviation, oil and gas, government">
+    <label for="f-why">Why does this field interest me? <span class="hint">(1–2 sentences)</span></label>
+    <textarea id="f-why" data-k="goal.why" placeholder="I am interested in … because …"></textarea>
+    <label for="f-adv">A job or internship advert I like <span class="hint">(company + title, or a link)</span></label>
+    <input id="f-adv" type="text" data-k="goal.advert" placeholder="e.g. Etihad – HR Intern (LinkedIn)">
+    <label for="f-kw">3 keywords from the advert <span class="hint">(skills the company wants)</span></label>
+    <input id="f-kw" type="text" data-k="goal.keywords" placeholder="e.g. teamwork, Excel, customer service">
+    <div class="tip">Use these keywords in your CV. Computer systems (ATS) look for them before a person reads your CV.</div>
+    <div class="keys" data-keys="career goal,internship,keyword,ATS,tailor"></div>
+  </div>
+</section>
+
+<!-- 3 SUMMARY -->
+<section id="s-sum" data-title="3. Professional summary">
+  <div class="card">
+    <span class="step-tag">Step 3 · Before the meeting</span>
+    <h2>My professional summary</h2>
+    <p class="lead">Formula: <b>Who I am</b> + <b>What I bring</b> + <b>What I want</b>.</p>
+    <label for="f-who">Who I am <span class="hint">— "I am a ___ student at HCT with an interest in ___."</span></label>
+    <textarea id="f-who" data-k="sum.who"></textarea>
+    <label for="f-bring">What I bring <span class="hint">— "I am good at ___ and ___." (skills and qualities)</span></label>
+    <textarea id="f-bring" data-k="sum.bring"></textarea>
+    <label for="f-want">What I want <span class="hint">— "I am looking for a ___ where I can ___."</span></label>
+    <textarea id="f-want" data-k="sum.want"></textarea>
+    <h3 style="margin-top:16px">Preview</h3>
+    <div class="preview" id="sumPrev"></div>
+    <div class="model"><b>Model:</b> "Business student at HCT with a strong interest in human resources. Organised, a fast learner, and confident with people. Eager to apply my communication skills in an HR internship."</div>
+    <div class="tip">Don't copy the model. Use your own words and your own field.</div>
+    <div class="keys" data-keys="professional summary,soft skills,hard skills,recruiter"></div>
+  </div>
+</section>
+
+<!-- 4 ACHIEVEMENTS -->
+<section id="s-ach" data-title="4. Achievements">
+  <div class="card">
+    <span class="step-tag">Step 4 · Before the meeting</span>
+    <h2>Three things I'm proud of</h2>
+    <p class="lead">From college, work, volunteering, sport, clubs or a family business. Add a number if you can.</p>
+    <label for="f-a1">Achievement 1</label><textarea id="f-a1" data-k="ach.0" placeholder="e.g. Helped organise a college event for 100+ students"></textarea>
+    <label for="f-a2">Achievement 2</label><textarea id="f-a2" data-k="ach.1" placeholder="e.g. Volunteered at the Abu Dhabi Marathon for 2 days"></textarea>
+    <label for="f-a3">Achievement 3</label><textarea id="f-a3" data-k="ach.2" placeholder="e.g. Worked in my father's shop every weekend for 1 year"></textarea>
+    <label for="f-q">One question I want to ask my mentor</label>
+    <input id="f-q" type="text" data-k="question" placeholder="e.g. Should I put my high school on my CV?">
+    <div class="keys" data-keys="achievement,quantify,volunteering,certification"></div>
+  </div>
+</section>
+
+<!-- 5 CV CHECK -->
+<section id="s-check" data-title="5. CV self-check">
+  <div class="card">
+    <span class="step-tag">Step 5 · Before the meeting</span>
+    <h2>CV self-check</h2>
+    <p class="lead">Open your CV. Tick each item that is <b>already correct</b>. Your teacher will check it with you.</p>
+    <div id="checklist"></div>
+    <div class="tip">Free tools: <a href="https://resume.io/resume-templates/ats" target="_blank" rel="noopener">ATS-friendly templates</a> · <a href="https://www.atsfriendly.com/" target="_blank" rel="noopener">ATS compatibility checker</a></div>
+  </div>
+</section>
+
+<!-- 6 BULLETS -->
+<section id="s-bul" data-title="6. Bullet builder">
+  <div class="card">
+    <span class="step-tag">Step 6 · Before / during the meeting</span>
+    <h2>Bullet builder</h2>
+    <p class="lead">Formula: <b>Action Verb + Task + Result</b>. Never start with "Responsible for…".</p>
+    <div class="model"><b>Before:</b> Responsible for helping customers in my father's shop.<br><b>After:</b> Served 40+ customers daily in a family retail business, improving repeat visits through friendly service.</div>
+    <div id="bullets"></div>
+    <div class="keys" data-keys="action verb,quantify,reverse chronological order"></div>
+  </div>
+</section>
+
+<!-- 7 PITCH -->
+<section id="s-pitch" data-title="7. 30-second intro">
+  <div class="card">
+    <span class="step-tag">Step 7 · Practise, then do it in the meeting</span>
+    <h2>My 30-second introduction</h2>
+    <p class="lead">Your teacher will say: <i>"Imagine I'm a manager. Introduce yourself in 30 seconds."</i></p>
+    <div class="grid2">
+      <div><label for="p1">1. Greeting + name</label><textarea id="p1" data-k="pitch.greet" placeholder="Good morning, my name is …"></textarea></div>
+      <div><label for="p2">2. Who I am</label><textarea id="p2" data-k="pitch.who" placeholder="I'm a second-year … student at HCT …"></textarea></div>
+      <div><label for="p3">3. What I bring + example</label><textarea id="p3" data-k="pitch.bring" placeholder="I'm good at … For example, I …"></textarea></div>
+      <div><label for="p4">4. What I want</label><textarea id="p4" data-k="pitch.want" placeholder="I'm looking for an internship in … where I can …"></textarea></div>
+    </div>
+    <div class="row noprint"><button class="btn ghost" type="button" onclick="fillPitch()">Use my summary + achievement 1</button></div>
+    <h3 style="margin-top:16px">My script</h3>
+    <div class="preview" id="pitchPrev"></div>
+    <div class="model"><b>Model (B1):</b> "Good morning, my name is Mariam. I'm a second-year Business student at HCT. I'm organised and I enjoy working with people. Last semester, I helped organise a college event for over 100 students. I'm looking for an internship in HR where I can develop my communication skills."</div>
+  </div>
+  <div class="card">
+    <h3>Time yourself</h3>
+    <p class="lead">Aim for 25–45 seconds. Look up from the screen. Pause after your name and after your example.</p>
+    <div class="row"><div class="timer" id="timer">0.0s</div>
+      <button class="btn lime" type="button" id="tBtn" onclick="toggleTimer()">Start</button></div>
+    <div class="tries" style="margin-top:16px">
+      <div class="bullet"><b>Try 1</b> <span class="hint" id="t1time">— not recorded</span>
+        <div class="row" style="margin-top:8px"><button class="btn ghost" type="button" onclick="saveTry(1)">Save time as Try 1</button></div>
+        <div class="hint" style="margin-top:8px">How confident did you feel? (1–5)</div><div class="stars" data-try="1"></div></div>
+      <div class="bullet"><b>Try 2</b> <span class="hint" id="t2time">— not recorded</span>
+        <div class="row" style="margin-top:8px"><button class="btn ghost" type="button" onclick="saveTry(2)">Save time as Try 2</button></div>
+        <div class="hint" style="margin-top:8px">How confident did you feel? (1–5)</div><div class="stars" data-try="2"></div></div>
+    </div>
+    <div class="keys" data-keys="elevator pitch,eye contact,pace,confidence"></div>
+  </div>
+  <div class="card noprint" id="recCard">
+    <h3>🎙️ Record yourself</h3>
+    <p class="lead">Record your introduction, listen back, then download it. Your browser will ask to use your microphone (and camera for video). Tap <b>Allow</b>.</p>
+    <div class="row" role="radiogroup" aria-label="Recording type">
+      <button class="btn ghost modeBtn on" type="button" data-mode="audio" onclick="setMode('audio')">🎧 Audio only</button>
+      <button class="btn ghost modeBtn" type="button" data-mode="video" onclick="setMode('video')">🎥 Video</button>
+    </div>
+    <video id="live" class="recvid" playsinline muted hidden></video>
+    <div class="row">
+      <div class="timer" id="recTimer">0.0s</div>
+      <button class="btn lime" type="button" id="recBtn" onclick="toggleRec()">● Start recording</button>
+    </div>
+    <div class="hint" id="recMsg">Tip: put your script on the screen, but look up at the camera or your teacher as much as you can.</div>
+    <div id="takes"></div>
+    <div class="tip">Recordings are <b>not</b> stored in your save file. Download each one you want to keep. Name: <b>FirstName_LastName_Intro_Take1</b>.</div>
+  </div>
+</section>
+
+<!-- 8 MEETING -->
+<section id="s-meet" data-title="8. Meeting notes">
+  <div class="card">
+    <span class="step-tag">Step 8 · During the meeting</span>
+    <h2>Mentor feedback</h2>
+    <p class="lead">Write your teacher's feedback here during the meeting.</p>
+    <div class="grid2">
+      <div><label for="m-s1">CV strength 1 ✓</label><input id="m-s1" type="text" data-k="meet.s1"></div>
+      <div><label for="m-s2">CV strength 2 ✓</label><input id="m-s2" type="text" data-k="meet.s2"></div>
+      <div><label for="m-f1">Fix 1 ✎</label><input id="m-f1" type="text" data-k="meet.f1"></div>
+      <div><label for="m-f2">Fix 2 ✎</label><input id="m-f2" type="text" data-k="meet.f2"></div>
+    </div>
+    <label for="m-rw">The bullet we rewrote together</label>
+    <textarea id="m-rw" data-k="meet.rewrite"></textarea>
+    <label for="m-tip">My delivery tip for the introduction</label>
+    <select id="m-tip" data-k="meet.tip">
+      <option value="">— choose —</option>
+      <option>Pace: pause after my name and after my example</option>
+      <option>Eye contact: look up at the start and end of each sentence</option>
+      <option>Confidence: speak louder and don't apologise</option>
+      <option>Content: prove it with a real example</option>
+      <option>Length: keep only my best example</option>
+    </select>
+    <label for="m-ans">Answer to my question</label>
+    <textarea id="m-ans" data-k="meet.answer"></textarea>
+  </div>
+</section>
+
+<!-- 9 PLAN -->
+<section id="s-plan" data-title="9. Action plan">
+  <div class="card">
+    <span class="step-tag">Step 9 · End of the meeting</span>
+    <h2>My action plan</h2>
+    <p class="lead">Your teacher will ask: <i>"What are the two things you will change this week?"</i></p>
+    <label for="a1">Next step 1</label><input id="a1" type="text" data-k="plan.0" placeholder="e.g. Rewrite my work experience bullets with action verbs">
+    <label for="a2">Next step 2</label><input id="a2" type="text" data-k="plan.1" placeholder="e.g. Remove my photo and date of birth">
+    <label for="a3">Next step 3</label><input id="a3" type="text" data-k="plan.2" placeholder="e.g. Add keywords from the advert to my skills">
+    <label for="a4">I will book the Career Centre for my final CV check by:</label>
+    <input id="a4" type="date" data-k="plan.cc">
+    <div class="tip">Final step: the <b>Career Centre</b> checks and approves your CV. Save it as a PDF named <b>FirstName_LastName_CV</b>.</div>
+    <div class="keys" data-keys="mentor,next steps"></div>
+  </div>
+</section>
+
+<!-- 10 COPY -->
+<section id="s-copy" data-title="10. My copy">
+  <div class="card noprint">
+    <span class="step-tag">Step 10 · Keep your copy</span>
+    <h2>My copy</h2>
+    <p class="lead">Print or save as PDF for your portfolio. Save your work file to continue later.</p>
+    <div class="row">
+      <button class="btn lime" type="button" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn" type="button" onclick="saveJSON()">Save my work</button>
+      <button class="btn ghost" type="button" onclick="document.getElementById('loadF').click()">Load my work</button>
+    </div>
+    <h3 style="margin-top:20px">My badges</h3>
+    <div class="badges" id="badgeList"></div>
+  </div>
+  <div class="card sum" id="summary"></div>
+</section>
+
+</div>
+<div class="navrow noprint">
+  <button class="btn ghost" type="button" id="prevB" onclick="go(cur-1)">← Back</button>
+  <button class="btn" type="button" id="nextB" onclick="go(cur+1)">Next →</button>
+</div>
+</main>
+
+<div class="modal" id="gloss" hidden onclick="if(event.target===this)this.hidden=true">
+  <div class="box"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">Glossary · مسرد المصطلحات</h3><button class="btn ghost" type="button" onclick="gloss.hidden=true">Close</button></div>
+  <table class="gl" id="glTable"></table></div>
+</div>
+<div class="toast" id="toast" hidden></div>
+<footer>Designed by: Nazila Motahari · LSC 1503 Professional Spoken Communication · CV guidance: Al Ghurair Foundation / Success Centre / HCT</footer>
+
+<script>
+const GL={
+ "CV":"السيرة الذاتية","career goal":"الهدف المهني","internship":"تدريب عملي","keyword":"كلمة مفتاحية","ATS":"نظام فرز السير الذاتية آلياً",
+ "tailor":"تكييف / تخصيص","professional summary":"الملخص المهني","soft skills":"المهارات الشخصية","hard skills":"المهارات التقنية",
+ "recruiter":"مسؤول التوظيف","achievement":"إنجاز","quantify":"التعبير بالأرقام","volunteering":"العمل التطوعي","certification":"شهادة مهنية",
+ "action verb":"فعل إجرائي","reverse chronological order":"ترتيب زمني عكسي (الأحدث أولاً)","elevator pitch":"تعريف قصير بالنفس",
+ "eye contact":"التواصل البصري","pace":"سرعة الكلام","confidence":"الثقة بالنفس","mentor":"المرشد / الموجّه","next steps":"الخطوات التالية"
+};
+const CHECK=[
+ ["Header","Name, emirate, phone, professional email, LinkedIn.","No photo, date of birth, marital status or full address."],
+ ["Professional summary","Who I am + What I bring + What I want.","Short (2–3 lines) and in my own words."],
+ ["Education","Institution, programme, dates (or expected graduation), GPA if strong.","Add relevant courses."],
+ ["Experience","Newest first. Job title, company, location, dates.","3–6 bullet points per role, not paragraphs."],
+ ["Bullets","Action Verb + Task + Result.","Numbers where possible (e.g. 100+ students)."],
+ ["Skills","Hard skills, soft skills, languages, tools.","Matched to the job advert keywords."],
+ ["Extras","Certifications, awards, volunteering, clubs, projects.","College events count!"],
+ ["Format","1–2 pages. Arial, Calibri or Times New Roman. 10–12pt body, 14–16pt headings.","Same spacing and style everywhere."],
+ ["ATS-friendly","Standard headings. No tables, graphics, icons or text boxes.","No colourful designs."],
+ ["File","Saved as PDF, named FirstName_LastName_CV.","Not \"CV final final.docx\"."]
+];
+const VERBS=["Led","Created","Organised","Improved","Managed","Supported","Designed","Presented","Volunteered","Trained","Served","Helped","Planned","Analysed","Completed","Won"];
+const BADGES=[
+ ["goal","🎯","Goal Setter",s=>s.goal.job&&s.goal.why],
+ ["sum","⭐","Summary Star",s=>s.sum.who&&s.sum.bring&&s.sum.want],
+ ["ach","🏆","Achiever",s=>s.ach.filter(Boolean).length===3],
+ ["check","🔍","CV Inspector",s=>Object.values(s.check).filter(Boolean).length>=8],
+ ["bul","🧱","Bullet Builder",s=>s.bul.filter(b=>b.verb&&b.task&&b.result).length>=2],
+ ["pitch","🎤","Confident Speaker",s=>s.tries[1].sec&&s.tries[2].sec],
+ ["plan","🚀","Action Taker",s=>s.plan[0]&&s.plan[1]&&s.plan[2]]
+];
+let S=fresh(), cur=0, dirty=false, earned=new Set();
+function fresh(){return{me:{name:"",id:"",prog:"",date:""},goal:{job:"",field:"",why:"",advert:"",keywords:""},sum:{who:"",bring:"",want:""},
+ ach:["","",""],question:"",check:{},bul:[{verb:"",task:"",result:""},{verb:"",task:"",result:""},{verb:"",task:"",result:""}],
+ pitch:{greet:"",who:"",bring:"",want:""},tries:{1:{sec:0,rate:0},2:{sec:0,rate:0}},
+ meet:{s1:"",s2:"",f1:"",f2:"",rewrite:"",tip:"",answer:""},plan:["","",""],cc:""};}
+const secs=[...document.querySelectorAll("section")];
+const tabs=document.getElementById("tabs");
+secs.forEach((s,i)=>{const b=document.createElement("button");b.type="button";b.textContent=s.dataset.title;b.onclick=()=>go(i);tabs.appendChild(b);});
+function go(i){if(i<0||i>=secs.length)return;cur=i;secs.forEach((s,j)=>s.classList.toggle("on",j===i));
+ [...tabs.children].forEach((b,j)=>b.classList.toggle("on",j===i));tabs.children[i].scrollIntoView({inline:"center",block:"nearest"});
+ document.getElementById("prevB").style.visibility=i?"visible":"hidden";document.getElementById("nextB").style.visibility=i<secs.length-1?"visible":"hidden";
+ if(secs[i].id==="s-copy")renderSummary();renderGuide();window.scrollTo({top:0,behavior:"smooth"});}
+function getP(o,p){return p.split(".").reduce((a,k)=>a==null?a:a[k],o);}
+function setP(o,p,v){const k=p.split(".");let a=o;for(let i=0;i<k.length-1;i++)a=a[k[i]];a[k[k.length-1]]=v;}
+function keyOf(path){return path==="plan.cc"?"cc":path;}
+document.querySelectorAll("[data-k]").forEach(el=>{el.addEventListener("input",()=>{setP(S,keyOf(el.dataset.k),el.value);markDirty();update();});});
+function bindAll(){document.querySelectorAll("[data-k]").forEach(el=>{const v=getP(S,keyOf(el.dataset.k));el.value=v==null?"":v;});
+ document.querySelectorAll("#checklist input").forEach(c=>c.checked=!!S.check[c.dataset.i]);renderBullets();renderStars();renderTries();update();}
+// keyword chips
+document.querySelectorAll("[data-keys]").forEach(d=>{d.innerHTML='<span class="hint" style="width:100%">Key words:</span>'+d.dataset.keys.split(",").map(k=>`<span class="key">${k}<span>${GL[k]||""}</span></span>`).join("");});
+// checklist
+document.getElementById("checklist").innerHTML=CHECK.map((c,i)=>`<label class="check" for="c${i}"><input type="checkbox" id="c${i}" data-i="${i}"><span><b>${c[0]}</b> — ${c[1]}<span class="hint">${c[2]}</span></span></label>`).join("");
+document.querySelectorAll("#checklist input").forEach(c=>c.onchange=()=>{S.check[c.dataset.i]=c.checked;markDirty();update();});
+// bullets
+function renderBullets(){document.getElementById("bullets").innerHTML=S.bul.map((b,i)=>`<div class="bullet"><b>Bullet ${i+1}</b>
+ <div class="grid2"><div><label for="bv${i}">Action verb</label><select id="bv${i}" data-b="${i}" data-f="verb"><option value="">— choose —</option>${VERBS.map(v=>`<option${b.verb===v?" selected":""}>${v}</option>`).join("")}</select></div>
+ <div><label for="bt${i}">Task <span class="hint">(what you did)</span></label><input type="text" id="bt${i}" data-b="${i}" data-f="task" value="${esc(b.task)}" placeholder="a college event for 100+ students"></div></div>
+ <label for="br${i}">Result <span class="hint">(what happened because of you)</span></label><input type="text" id="br${i}" data-b="${i}" data-f="result" value="${esc(b.result)}" placeholder="increasing student participation">
+ <div class="preview" id="bp${i}">${esc(bulletText(b))}</div></div>`).join("");
+ document.querySelectorAll("[data-b]").forEach(el=>el.addEventListener("input",()=>{const i=+el.dataset.b;S.bul[i][el.dataset.f]=el.value;markDirty();document.getElementById("bp"+i).textContent=bulletText(S.bul[i]);update();}));}
+function bulletText(b){if(!b.verb&&!b.task&&!b.result)return"";let t=[b.verb,b.task].filter(Boolean).join(" ");if(b.result)t+=", "+b.result;return t.trim()+(t?".":"");}
+// pitch
+function fillPitch(){const n=(S.me.name||"").split(" ")[0];if(!S.pitch.greet)S.pitch.greet=n?`Good morning, my name is ${n}.`:"Good morning, my name is ";
+ if(!S.pitch.who)S.pitch.who=S.sum.who;if(!S.pitch.bring)S.pitch.bring=S.sum.bring+(S.ach[0]?` For example, I ${S.ach[0].charAt(0).toLowerCase()+S.ach[0].slice(1)}.`:"");
+ if(!S.pitch.want)S.pitch.want=S.sum.want;markDirty();bindAll();toast("Script started — now make it sound like you!");}
+let t0=0,timerId=null,elapsed=0;
+function toggleTimer(){const b=document.getElementById("tBtn");if(timerId){clearInterval(timerId);timerId=null;b.textContent="Start";}
+ else{t0=Date.now();elapsed=0;b.textContent="Stop";timerId=setInterval(()=>{elapsed=(Date.now()-t0)/1000;const t=document.getElementById("timer");t.textContent=elapsed.toFixed(1)+"s";t.className="timer"+(elapsed>45?" long":elapsed>=25?" good":"");},100);}}
+function saveTry(n){if(timerId)toggleTimer();if(!elapsed){toast("Start and stop the timer first.");return;}S.tries[n].sec=+elapsed.toFixed(1);markDirty();renderTries();update();
+ toast(elapsed>=25&&elapsed<=45?`Try ${n}: ${S.tries[n].sec}s — great length!`:elapsed<25?`Try ${n}: ${S.tries[n].sec}s — add a little more.`:`Try ${n}: ${S.tries[n].sec}s — make it shorter.`);}
+function renderTries(){[1,2].forEach(n=>document.getElementById("t"+n+"time").textContent=S.tries[n].sec?`— ${S.tries[n].sec} seconds`:"— not recorded");}
+function renderStars(){document.querySelectorAll(".stars").forEach(d=>{const n=d.dataset.try;d.innerHTML=[1,2,3,4,5].map(v=>`<button type="button" class="${S.tries[n].rate===v?"on":""}" aria-label="${v} out of 5">${v}</button>`).join("");
+ [...d.children].forEach((b,i)=>b.onclick=()=>{S.tries[n].rate=i+1;markDirty();renderStars();update();});});}
+// update
+function update(){
+ document.getElementById("sumPrev").textContent=[S.sum.who,S.sum.bring,S.sum.want].filter(Boolean).join(" ");
+ document.getElementById("pitchPrev").textContent=[S.pitch.greet,S.pitch.who,S.pitch.bring,S.pitch.want].filter(Boolean).join(" ");
+ const got=BADGES.filter(b=>b[3](S));const ids=new Set(got.map(b=>b[0]));
+ got.forEach(b=>{if(!earned.has(b[0])&&ready){toast(`${b[1]} Badge earned: ${b[2]}!`);confetti();}});earned=ids;
+ const done={"s-me":S.me.name&&S.me.prog,"s-goal":ids.has("goal"),"s-sum":ids.has("sum"),"s-ach":ids.has("ach"),"s-check":ids.has("check"),"s-bul":ids.has("bul"),
+  "s-pitch":ids.has("pitch"),"s-meet":S.meet.s1&&S.meet.f1,"s-plan":ids.has("plan")};
+ secs.forEach((s,i)=>tabs.children[i].classList.toggle("done",!!done[s.id]));
+ const n=Object.values(done).filter(Boolean).length,pct=Math.round(n/9*100);
+ const pts=got.length*20+Object.values(S.check).filter(Boolean).length*2+(S.question?5:0)+(S.meet.s1?10:0);
+ document.getElementById("pts").textContent=pts;document.getElementById("bdg").textContent=got.length;
+ document.getElementById("pct").textContent=pct+"%";document.getElementById("bar").style.width=pct+"%";
+ document.getElementById("badgeList").innerHTML=BADGES.map(b=>`<div class="badge${ids.has(b[0])?" got":""}"><i>${b[1]}</i>${b[2]}</div>`).join("");
+ S._pct=pct;S._pts=pts;
+ if(typeof renderGuide==="function"&&secs[cur])renderGuide();
+}
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function v(t){return t?esc(t):'<span class="empty">—</span>';}
+function fmtD(d){if(!d)return"";const x=new Date(d+"T00:00");return x.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});}
+function renderSummary(){update();const bul=S.bul.map(bulletText).filter(Boolean);
+ const checked=CHECK.filter((c,i)=>S.check[i]).map(c=>c[0]),todo=CHECK.filter((c,i)=>!S.check[i]).map(c=>c[0]);
+ document.getElementById("summary").innerHTML=`<h2 style="margin-top:0">Career Mentorship Record</h2>
+ <p><b>${v(S.me.name)}</b> · ID: ${v(S.me.id)} · ${v(S.me.prog)}<br>Meeting date: ${v(fmtD(S.me.date))}</p>
+ <h3>Career goal</h3><p><b>Job:</b> ${v(S.goal.job)} &nbsp; <b>Field:</b> ${v(S.goal.field)}</p><p><b>Why:</b> ${v(S.goal.why)}</p>
+ <p><b>Advert:</b> ${v(S.goal.advert)} &nbsp; <b>Keywords:</b> ${v(S.goal.keywords)}</p>
+ <h3>Professional summary</h3><p>${v([S.sum.who,S.sum.bring,S.sum.want].filter(Boolean).join(" "))}</p>
+ <h3>Achievements</h3><ol>${S.ach.map(a=>`<li>${v(a)}</li>`).join("")}</ol>
+ <h3>CV self-check</h3><p><b>Correct (${checked.length}/10):</b> ${checked.length?esc(checked.join(", ")):'<span class="empty">none yet</span>'}</p>
+ <p><b>To work on:</b> ${todo.length?esc(todo.join(", ")):"Nothing — great!"}</p>
+ <h3>My CV bullets</h3>${bul.length?"<ul>"+bul.map(b=>`<li>${esc(b)}</li>`).join("")+"</ul>":'<p class="empty">—</p>'}
+ <h3>30-second introduction</h3><p>${v([S.pitch.greet,S.pitch.who,S.pitch.bring,S.pitch.want].filter(Boolean).join(" "))}</p>
+ <p><b>Try 1:</b> ${S.tries[1].sec?S.tries[1].sec+"s":"—"}${S.tries[1].rate?" · confidence "+S.tries[1].rate+"/5":""} &nbsp; <b>Try 2:</b> ${S.tries[2].sec?S.tries[2].sec+"s":"—"}${S.tries[2].rate?" · confidence "+S.tries[2].rate+"/5":""}</p>
+ <h3>Mentor feedback</h3><p><b>Strengths:</b> ${v([S.meet.s1,S.meet.s2].filter(Boolean).join("; "))}</p><p><b>Fixes:</b> ${v([S.meet.f1,S.meet.f2].filter(Boolean).join("; "))}</p>
+ <p><b>Bullet rewritten:</b> ${v(S.meet.rewrite)}</p><p><b>Delivery tip:</b> ${v(S.meet.tip)}</p><p><b>My question:</b> ${v(S.question)}<br><b>Answer:</b> ${v(S.meet.answer)}</p>
+ <h3>Action plan</h3><ol>${S.plan.map(p=>`<li>${v(p)}</li>`).join("")}</ol><p><b>Career Centre final check by:</b> ${v(fmtD(S.cc))}</p>
+ ${S._pct>=80?`<div class="cert"><div class="step-tag">Certificate</div><h2>Mentorship Ready</h2><p>This certifies that</p><div class="nm">${v(S.me.name)}</div>
+ <p>prepared for and completed a career mentorship session<br>with ${S._pts} points and ${earned.size} of 7 badges.</p><p style="font-size:14px;color:var(--muted)">LSC 1503 · HCT · Designed by: Nazila Motahari</p></div>`
+ :`<div class="tip noprint">Reach 80% ready to unlock your <b>Mentorship Ready</b> certificate. You are at ${S._pct}%.</div>`}`;}
+// save / load
+function saveJSON(){const d=JSON.parse(JSON.stringify(S));d._app="career-mentor-prep";d._saved=new Date().toISOString();
+ const nm=(S.me.name||"Student").trim().replace(/\s+/g,"_").replace(/[^\w]/g,"");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:"application/json"}));a.download=nm+"_Mentorship.json";
+ document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
+ const t=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});markSaved(`<b>Saved at ${t}</b> as ${nm}_Mentorship.json (check your Downloads). Use 📂 Load my work next time.`);toast("Saved! Keep this file safe.");}
+function loadJSON(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d._app!=="career-mentor-prep")throw 0;
+ const base=fresh();S=Object.assign(base,d);ready=false;bindAll();ready=true;markSaved("<b>Work loaded.</b> Keep going, and save again when you finish.");toast("Welcome back, "+((S.me.name||"").split(" ")[0]||"student")+"!");go(0);}
+ catch(e){toast("This file is not a Career Mentor Prep save file.");}inp.value="";};r.readAsText(f);}
+function markDirty(){if(!ready)return;dirty=true;document.getElementById("hSave").classList.add("unsaved");
+ document.getElementById("saveState").innerHTML="<b>You have unsaved changes.</b> Tap 💾 Save my work before you close this page.";}
+function markSaved(msg){dirty=false;savedOnce=true;document.getElementById("hSave").classList.remove("unsaved");
+ document.getElementById("saveState").innerHTML=msg;}
+window.addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue="";}});
+// glossary
+function openGloss(){document.getElementById("glTable").innerHTML=Object.entries(GL).map(([e,a])=>`<tr><td><b>${e}</b></td><td>${a}</td></tr>`).join("");gloss.hidden=false;}
+// toast + confetti
+let tt;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2600);}
+function confetti(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;const c=document.getElementById("cf"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;
+ const cols=["#8cc63f","#16244a","#ffffff","#22366b","#c8e89a"],P=Array.from({length:120},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.4,vx:(Math.random()-.5)*3,vy:2+Math.random()*3,s:5+Math.random()*6,c:cols[Math.random()*5|0],r:Math.random()*6}));
+ let f=0;(function draw(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);x.restore();});
+ if(++f<150)requestAnimationFrame(draw);else x.clearRect(0,0,c.width,c.height);})();}
+// ---------- HELP PANELS (steps 1–4) ----------
+const JOBS={
+ "Business / HR":["HR Assistant","Recruitment Coordinator","Office Administrator","Customer Service Officer","Marketing Assistant","Bank Teller","Accounts Assistant"],
+ "IT / Computing":["IT Support Technician","Junior Data Analyst","Web Developer","Network Technician","Cybersecurity Analyst","Help Desk Officer"],
+ "Engineering":["Maintenance Technician","Electrical Technician","Mechanical Engineer Trainee","Quality Inspector","Site Supervisor"],
+ "Health Sciences":["Medical Lab Assistant","Pharmacy Assistant","Patient Services Officer","Health Admin Officer"],
+ "Media / Design":["Social Media Coordinator","Graphic Designer","Content Creator","Video Editor","Events Coordinator"],
+ "Aviation / Logistics":["Customer Service Agent (Airline)","Logistics Coordinator","Customs Officer","Supply Chain Assistant"]
+};
+const FIELDS=["banking","government services","oil and gas","aviation","healthcare","technology","education","tourism and hospitality","media","logistics","retail","energy","real estate","police and security"];
+const SOFT=["organised","hardworking","a fast learner","friendly","reliable","creative","confident with people","a good listener","a team player","calm under pressure","punctual","patient","responsible","motivated"];
+const HARD=["Microsoft Excel","Word and PowerPoint","customer service","social media","data entry","report writing","presenting","Arabic–English translation","basic coding","Canva","photography","time management"];
+const ACHV=["helped organise a college event for ___ students","volunteered at ___ for ___ days","worked part-time at ___ for ___ months","helped in my family business every weekend","was class representative for ___","won ___ place in a ___ competition","completed an online course in ___ (Coursera / LinkedIn Learning)","trained ___ new members of a club","presented a project to ___ teachers and students","raised ___ AED for a charity","played in the college ___ team","took part in National Service","designed posters / social media posts for a college club","helped younger students with their English"];
+const HELP={
+ "f-name":{frames:[],tips:["Write your full name the way it is on your Emirates ID, in English.","Use capital letters only at the start: Mariam Ali Al Hosani, not MARIAM ALI."]},
+ "f-prog":{frames:["Bachelor of ___ in ___","Diploma in ___","Business Administration – ___"],tips:["Write your programme, not just 'HCT'. Example: Business Administration – Human Resources."]},
+ "f-job":{jobs:true,tips:["Choose one job title, not 'any job'. A clear goal helps you write a better CV.","Not sure? Look at the job title in an advert you like on LinkedIn, Bayt or the HCT Career Centre."]},
+ "f-field":{words:FIELDS,tips:["The field is the area of work. One job can be in many fields: an HR Assistant can work in banking, aviation or government."]},
+ "f-why":{frames:["I am interested in ___ because I enjoy ___.","I want to work in ___ because I like helping people / solving problems / working with technology.","This field is important for the UAE because ___.","I became interested in ___ when I ___."],
+  examples:["I am interested in banking because I enjoy working with numbers and helping customers.","I want to work in aviation because I like meeting people from different countries, and Etihad is an important company for the UAE.","I became interested in IT when I fixed my family's computers and phones."]},
+ "f-adv":{tips:["Search on LinkedIn, Bayt.com, Indeed UAE, or company career pages (ADNOC, Etihad, Emirates NBD, DEWA, TAQA, Etisalat (e&)).","Ask the HCT Career Centre about internships for your programme.","Write the company and the job title. Example: Emirates NBD – Customer Service Intern."]},
+ "f-kw":{words:["teamwork","communication skills","customer service","Microsoft Office","Excel","problem solving","time management","attention to detail","English and Arabic","leadership","flexible","data entry"],tips:["Read the 'Requirements' or 'Skills' part of the advert. Copy three skills you see there."]},
+ "f-who":{frames:["I am a ___-year ___ student at HCT with an interest in ___.","Business student at HCT with a strong interest in ___.","Motivated ___ student at Higher Colleges of Technology, specialising in ___."],
+  examples:["I am a second-year IT student at HCT with an interest in cybersecurity.","Engineering student at HCT with a strong interest in renewable energy.","Motivated Health Sciences student at HCT, specialising in medical laboratory work."],tips:["Keep it to one sentence. Mention your programme and the area that interests you."]},
+ "f-bring":{frames:["I am ___ and ___.","I am good at ___ and ___.","I have experience in ___ and I am skilled in ___.","I am ___, and I can use ___ well."],words:SOFT.concat(HARD),
+  examples:["I am organised and confident with people, and I can use Excel well.","I am a fast learner and a team player with experience in customer service."],tips:["Choose 2 soft skills (qualities) + 1 hard skill (something you can do or use).","Don't write 10 skills. Two or three true skills are better."]},
+ "f-want":{frames:["I am looking for an internship in ___ where I can ___.","I am eager to apply my ___ skills in a ___ role.","I hope to start my career in ___ and develop my ___ skills."],
+  examples:["I am looking for an internship in HR where I can develop my communication skills.","I am eager to apply my technical skills in an IT support role."],tips:["Use the job or field you wrote in Step 2."]},
+ "f-a1":{achv:true},"f-a2":{achv:true},"f-a3":{achv:true},
+ "f-q":{words:["Should I put my high school on my CV?","What is the most important thing to fix in my CV?","How can I find an internship in my field?","Is my professional summary clear?","Which skills should I add for this job?","How do I make a LinkedIn profile?","Can I include volunteering and National Service?"],replace:true}
+};
+const ACH_TIPS=["It can be small! Helping at home, a club, a sport or a family business all count.","Add a number: how many people, how many days, how much money, which place (1st, 2nd).","Start with a past-tense verb: helped, organised, won, volunteered, completed."];
+function insertText(el,txt,mode){const cur=el.value.replace(/\s*$/,"");
+ if(mode==="rep"||!cur)el.value=txt;
+ else if(mode==="word"&&cur.includes("___"))el.value=el.value.replace("___",txt);
+ else if(mode==="word")el.value=cur+(/[.!?,]$/.test(cur)?" ":", ")+txt;
+ else el.value=cur+(/[.!?]$/.test(cur)?" ":". ")+txt;
+ el.dispatchEvent(new Event("input"));el.focus();const b=el.value.indexOf("___");if(b>-1&&el.setSelectionRange)el.setSelectionRange(b,b+3);}
+function chip(label,cls){return`<button type="button" class="hchip ${cls||""}" data-t="${esc(label)}">${esc(label)}</button>`;}
+function buildHelp(id){const h=HELP[id],el=document.getElementById(id);if(!h||!el)return;
+ const btn=document.createElement("button");btn.type="button";btn.className="helpbtn noprint";btn.innerHTML="💡 Need help? <span>مساعدة</span>";btn.setAttribute("aria-expanded","false");
+ const p=document.createElement("div");p.className="helppanel noprint";p.hidden=true;let html="";
+ if(h.tips)html+=`<div class="hsec"><b>Tips</b><ul>${h.tips.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>`;
+ if(h.jobs)html+=`<div class="hsec"><b>Tap a job title</b>${Object.entries(JOBS).map(([m,js])=>`<div class="hgroup"><span class="hlab">${m}</span>${js.map(j=>chip(j,"rep")).join("")}</div>`).join("")}</div>`;
+ if(h.frames&&h.frames.length)html+=`<div class="hsec"><b>Sentence starters</b> <span class="hint">— tap, then change the ___</span><div>${h.frames.map(f=>chip(f,"frame")).join("")}</div></div>`;
+ if(h.words)html+=`<div class="hsec"><b>${h.replace?"Tap a question":"Word bank"}</b> <span class="hint">— ${h.replace?"or write your own":"tap to add"}</span><div>${h.words.map(w=>chip(w,h.replace?"rep":"")).join("")}</div></div>`;
+ if(h.achv)html+=`<div class="hsec"><b>Tips</b><ul>${ACH_TIPS.map(t=>`<li>${t}</li>`).join("")}</ul></div><div class="hsec"><b>Ideas</b> <span class="hint">— tap, then change the ___</span><div>${ACHV.map(a=>chip(a.charAt(0).toUpperCase()+a.slice(1),"rep")).join("")}</div></div>`;
+ if(h.examples)html+=`<div class="hsec"><b>Examples</b> <span class="hint">— read for ideas, then write your own</span><ul>${h.examples.map(e=>`<li><i>${esc(e)}</i></li>`).join("")}</ul></div>`;
+ p.innerHTML=html;el.insertAdjacentElement("afterend",btn);btn.insertAdjacentElement("afterend",p);
+ btn.onclick=()=>{p.hidden=!p.hidden;btn.setAttribute("aria-expanded",String(!p.hidden));};
+ p.querySelectorAll(".hchip").forEach(c=>c.onclick=()=>insertText(el,c.dataset.t,c.classList.contains("rep")?"rep":c.classList.contains("frame")?"frame":"word"));}
+Object.keys(HELP).forEach(buildHelp);
+// ---------- RECORDER ----------
+let recMode="audio",mr=null,recStream=null,chunks=[],recT0=0,recInt=null,takes=[];
+function setMode(m){if(mr&&mr.state==="recording")return;recMode=m;document.querySelectorAll(".modeBtn").forEach(b=>b.classList.toggle("on",b.dataset.mode===m));}
+function pickType(){const opts=recMode==="video"?["video/mp4","video/webm;codecs=vp9,opus","video/webm"]:["audio/mp4","audio/webm;codecs=opus","audio/webm"];
+ return opts.find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))||"";}
+async function toggleRec(){const btn=document.getElementById("recBtn"),msg=document.getElementById("recMsg"),live=document.getElementById("live"),tm=document.getElementById("recTimer");
+ if(mr&&mr.state==="recording"){mr.stop();return;}
+ if(!navigator.mediaDevices||!window.MediaRecorder){msg.textContent="Recording isn't supported in this browser. Try Chrome, Edge or Safari, and open the app from its web link (https).";return;}
+ try{recStream=await navigator.mediaDevices.getUserMedia(recMode==="video"?{audio:true,video:{facingMode:"user"}}:{audio:true});}
+ catch(e){msg.textContent="The app couldn't use your "+(recMode==="video"?"camera or microphone":"microphone")+". Check that you tapped Allow, and that no other app is using it.";return;}
+ const type=pickType();chunks=[];mr=new MediaRecorder(recStream,type?{mimeType:type}:undefined);
+ mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data);};
+ mr.onstop=()=>{clearInterval(recInt);const sec=+((Date.now()-recT0)/1000).toFixed(1);recStream.getTracks().forEach(t=>t.stop());live.srcObject=null;live.hidden=true;
+  const mime=mr.mimeType||type||(recMode==="video"?"video/webm":"audio/webm");const blob=new Blob(chunks,{type:mime});
+  takes.push({url:URL.createObjectURL(blob),mime,sec,mode:recMode});renderGuide();btn.innerHTML="● Start recording";btn.classList.add("lime");
+  msg.textContent=sec>=25&&sec<=45?`Great length: ${sec} seconds!`:sec<25?`${sec} seconds — try adding a little more.`:`${sec} seconds — try to make it shorter.`;
+  renderTakes();markDirty();};
+ if(recMode==="video"){live.srcObject=recStream;live.hidden=false;live.play().catch(()=>{});}
+ mr.start(250);recT0=Date.now();btn.innerHTML='<span class="recdot"></span>Stop recording';btn.classList.remove("lime");msg.textContent="Recording… speak clearly and look up.";
+ recInt=setInterval(()=>{const s=(Date.now()-recT0)/1000;tm.textContent=s.toFixed(1)+"s";tm.className="timer"+(s>45?" long":s>=25?" good":"");if(s>120)mr.stop();},100);}
+function takeName(i){const nm=(S.me.name||"Student").trim().replace(/\s+/g,"_").replace(/[^\w]/g,"");const t=takes[i];
+ const ext=/mp4/.test(t.mime)?(t.mode==="video"?"mp4":"m4a"):"webm";return`${nm}_Intro_Take${i+1}.${ext}`;}
+function renderTakes(){document.getElementById("takes").innerHTML=takes.map((t,i)=>`<div class="take"><b>Take ${i+1}</b> <span class="hint">· ${t.mode} · ${t.sec}s</span>
+ ${t.mode==="video"?`<video class="recvid" src="${t.url}" controls playsinline></video>`:`<audio src="${t.url}" controls></audio>`}
+ <div class="row"><button class="btn lime" type="button" onclick="dlTake(${i})">⬇ Download</button>
+ <button class="btn ghost" type="button" onclick="useTake(${i},1)">Use time for Try 1</button><button class="btn ghost" type="button" onclick="useTake(${i},2)">Use time for Try 2</button>
+ <button class="btn ghost" type="button" onclick="delTake(${i})">Delete</button></div></div>`).join("");}
+function dlTake(i){const a=document.createElement("a");a.href=takes[i].url;a.download=takeName(i);document.body.appendChild(a);a.click();a.remove();dlCount++;renderGuide();toast("Downloaded "+takeName(i));}
+function useTake(i,n){S.tries[n].sec=takes[i].sec;renderTries();markDirty();update();toast(`Try ${n}: ${takes[i].sec}s saved. Now rate your confidence.`);}
+function delTake(i){URL.revokeObjectURL(takes[i].url);takes.splice(i,1);renderTakes();}
+window.addEventListener("beforeunload",e=>{if(takes.length){e.preventDefault();e.returnValue="";}});
+// ---------- STEP INSTRUCTIONS ----------
+const F=x=>!!(x&&String(x).trim());
+const GUIDE={
+ "s-me":{time:"About 1 minute",steps:[["Type your full name in English.",s=>F(s.me.name)],["Type your student ID.",s=>F(s.me.id)],["Write your programme or major.",s=>F(s.me.prog)],["Choose the date of your meeting.",s=>F(s.me.date)],["Tap 💾 Save my work at the top. Keep the file!",s=>savedOnce]]},
+ "s-goal":{time:"About 5 minutes",steps:[["Write one job title you want.","Tap 💡 Need help? for job ideas.",s=>F(s.goal.job)],["Write the field (area of work).",s=>F(s.goal.field)],["Explain why in 1–2 sentences.","Use a sentence starter.",s=>F(s.goal.why)],["Find a real job or internship advert online.","LinkedIn, Bayt, company websites.",s=>F(s.goal.advert)],["Copy 3 skills from the advert.",s=>(s.goal.keywords||"").split(/,|\band\b/).filter(F).length>=3]]},
+ "s-sum":{time:"About 7 minutes",steps:[["Write <b>Who I am</b> (1 sentence).",s=>F(s.sum.who)],["Write <b>What I bring</b>: 2 qualities + 1 skill.","Use the word bank.",s=>F(s.sum.bring)],["Write <b>What I want</b>: the job or internship.",s=>F(s.sum.want)],["Read your preview aloud. Change anything that doesn't sound like you.",s=>F(s.sum.who)&&F(s.sum.bring)&&F(s.sum.want)],["Copy the summary into the top of your CV.",null]]},
+ "s-ach":{time:"About 7 minutes",steps:[["Write achievement 1.","Start with a verb: helped, won, organised…",s=>F(s.ach[0])],["Write achievement 2.",s=>F(s.ach[1])],["Write achievement 3.",s=>F(s.ach[2])],["Add a number to at least one.","People, days, AED, 1st place…",s=>s.ach.some(a=>/\d/.test(a||""))],["Write one question for your teacher.",s=>F(s.question)]]},
+ "s-check":{time:"About 5 minutes",steps:[["Open your CV next to this app.",null],["Read each line of the checklist.",null],["Tick only what is <b>already correct</b> in your CV.",s=>Object.values(s.check).some(Boolean)],["Fix what you can before the meeting.","Aim for 8 or more ticks.",s=>Object.values(s.check).filter(Boolean).length>=8]]},
+ "s-bul":{time:"About 7 minutes",steps:[["Read the Before / After example.",null],["Bullet 1: choose a verb, write the task and the result.",s=>{const b=s.bul[0];return F(b.verb)&&F(b.task)&&F(b.result)}],["Bullet 2: do the same for another job or activity.",s=>{const b=s.bul[1];return F(b.verb)&&F(b.task)&&F(b.result)}],["Add a number in at least one bullet.",s=>s.bul.some(b=>/\d/.test((b.task||"")+(b.result||"")))],["Put your new bullets into your CV.",null]]},
+ "s-pitch":{time:"About 10 minutes",steps:[["Tap <b>Use my summary + achievement 1</b>, or write the 4 parts yourself.",s=>F(s.pitch.greet)&&F(s.pitch.who)&&F(s.pitch.bring)&&F(s.pitch.want)],["Read your script aloud 2–3 times.",null],["Record yourself (audio or video).",()=>takes.length>0],["Listen back. Is it 25–45 seconds? Did you look up?",()=>takes.length>0],["Save Try 1 and rate your confidence.",s=>s.tries[1].sec&&s.tries[1].rate],["Practise again, then save Try 2.",s=>s.tries[2].sec&&s.tries[2].rate],["Download the take you like best.",()=>dlCount>0]]},
+ "s-meet":{time:"In the meeting",steps:[["Bring this app to the meeting (laptop or phone).",null],["Write 2 strengths your teacher tells you.",s=>F(s.meet.s1)&&F(s.meet.s2)],["Write 2 things to fix.",s=>F(s.meet.f1)&&F(s.meet.f2)],["Copy the bullet you rewrote together.",s=>F(s.meet.rewrite)],["Choose your delivery tip.",s=>F(s.meet.tip)],["Write the answer to your question.",s=>F(s.meet.answer)]]},
+ "s-plan":{time:"End of the meeting",steps:[["Write next step 1.",s=>F(s.plan[0])],["Write next step 2.",s=>F(s.plan[1])],["Write next step 3.",s=>F(s.plan[2])],["Choose a date to visit the Career Centre.",s=>F(s.cc)]]},
+ "s-copy":{time:"About 2 minutes",steps:[["Check your record. Go back and fill any empty parts.",s=>s._pct>=80],["Tap <b>Print / Save as PDF</b> and save it for your portfolio.",null],["Tap 💾 <b>Save my work</b> to keep your file.",()=>savedOnce&&!dirty],["Visit the Career Centre for your final CV check.",null]]}
+};
+let savedOnce=false,dlCount=0,guideClosed=false;
+function renderGuide(){const s=secs[cur],g=GUIDE[s.id],el=document.getElementById("guide");if(!g){el.hidden=true;return;}el.hidden=false;
+ const rows=g.steps.map(st=>{const fn=typeof st[st.length-1]==="function"||st[st.length-1]===null?st[st.length-1]:null;const sub=st.length===3?st[1]:"";return{txt:st[0],sub,ok:fn?!!fn(S):false,auto:!!fn};});
+ const auto=rows.filter(r=>r.auto),done=auto.filter(r=>r.ok).length;
+ el.className="guide noprint"+(guideClosed?" closed":"");
+ el.innerHTML=`<button class="gtoggle" type="button" onclick="guideClosed=!guideClosed;renderGuide()">${guideClosed?"Show steps ▾":"Hide ▴"}</button>
+ <h3>📋 What to do here</h3><div class="gtime">⏱ ${g.time} · ${esc(s.dataset.title)}</div>
+ <ol>${rows.map(r=>`<li class="${r.ok?"ok":""}"><span>${r.txt}${r.sub?`<small>${r.sub}</small>`:""}</span></li>`).join("")}</ol>
+ <div class="gbar"><i style="width:${auto.length?Math.round(done/auto.length*100):0}%"></i></div>
+ ${auto.length&&done===auto.length?`<div class="gdone">✓ Page complete! Tap Next →</div>`:`<div class="gtime" style="margin:8px 0 0">${done} of ${auto.length} done · steps tick when you complete them</div>`}`;}
+let ready=false;bindAll();ready=true;go(0);
+</script>
+</body>
+</html>
