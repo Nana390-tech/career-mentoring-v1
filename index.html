@@ -197,7 +197,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
   <div class="card">
     <span class="step-tag">Start here</span>
     <h2>How this works: two sessions</h2>
-    <p class="lead">You meet your mentor twice, for 15 minutes each time. Session 1 gets you started. Session 2 is the follow-up, where you get feedback and your final copy.</p>
+    <p class="lead">This is career mentoring. It helps you plan your career and build a strong CV, even if you are not applying for a job yet. You meet your mentor twice, for 15 minutes each time. Session 1 gets you started. Session 2 is the follow-up, where you get feedback and your final copy.</p>
     <div class="sessions">
       <div class="sess s1">
         <div class="sessHead"><span>Session 1</span>15-minute meeting with your mentor</div>
@@ -256,7 +256,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
     <input id="f-field" type="text" data-k="goal.field" placeholder="e.g. banking, aviation, oil and gas, government">
     <label for="f-why">Why does this field interest me? <span class="hint">(1–2 sentences)</span></label>
     <textarea id="f-why" data-k="goal.why" placeholder="I am interested in … because …"></textarea>
-    <label for="f-adv">A job or internship advert I like <span class="hint">(company + title, or a link)</span></label>
+    <label for="f-adv">A job or internship advert I like <span class="hint">(for a job you'd like in the future; you don't need to apply)</span></label>
     <input id="f-adv" type="text" data-k="goal.advert" placeholder="e.g. Etihad – HR Intern (LinkedIn)">
     <label for="f-kw">3 keywords from the advert <span class="hint">(skills the company wants)</span></label>
     <input id="f-kw" type="text" data-k="goal.keywords" placeholder="e.g. teamwork, Excel, customer service">
@@ -410,9 +410,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
     <label for="a1">Next step 1</label><input id="a1" type="text" data-k="plan.0" placeholder="e.g. Rewrite my work experience bullets with action verbs">
     <label for="a2">Next step 2</label><input id="a2" type="text" data-k="plan.1" placeholder="e.g. Remove my photo and date of birth">
     <label for="a3">Next step 3</label><input id="a3" type="text" data-k="plan.2" placeholder="e.g. Add keywords from the advert to my skills">
-    <label for="a4">I will book the Career Centre for my final CV check by:</label>
+    <label for="a4">I will finish these steps by:</label>
     <input id="a4" type="date" data-k="plan.cc">
-    <div class="tip">Final step: the <b>Career Centre</b> checks and approves your CV. Save it as a PDF named <b>FirstName_LastName_CV</b>.</div>
+    <div class="tip">Keep your CV up to date. Add new courses, projects, volunteering and jobs as you do them, so your CV is ready when you want to apply. Save it as a PDF named <b>FirstName_LastName_CV</b>.</div>
     <div class="keys" data-keys="mentor,next steps"></div>
   </div>
 </section>
@@ -422,9 +422,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
   <div class="card noprint">
     <span class="step-tag">Step 10 · Session 2 · Final copy</span>
     <h2>My final copy</h2>
-    <p class="lead">Your mentor signs your work below in Session 2. Then print or save your final copy as a PDF for your portfolio.</p>
+    <p class="lead">Your mentor signs your work below in Session 2. Then download your final copy as a PDF for your portfolio. Before sign-off, you can download a draft.</p>
     <div class="row">
-      <button class="btn lime" type="button" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn lime" type="button" id="pdfBtn" onclick="downloadPDF()">⬇ Download draft (PDF)</button>
       <button class="btn" type="button" onclick="saveJSON()">Save my work</button>
       <button class="btn ghost" type="button" onclick="document.getElementById('loadF').click()">Load my work</button>
     </div>
@@ -435,7 +435,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
     <h3>✍️ Mentor sign-off <span class="hint">· your mentor completes this in Session 2</span></h3>
     <div class="grid2">
       <div><label for="sg-t">Mentor's name</label><input id="sg-t" type="text" data-k="sign.mentor" class="sg"></div>
-      <div><label for="sg-cv">CV status</label><select id="sg-cv" data-k="sign.cv" class="sg"><option value="">— choose —</option><option>Ready for the Career Centre</option><option>Nearly ready: small fixes needed</option><option>Needs more work before the Career Centre</option></select></div>
+      <div><label for="sg-cv">CV status</label><select id="sg-cv" data-k="sign.cv" class="sg"><option value="">— choose —</option><option>Strong: ready to use when you apply</option><option>Good: a few small improvements</option><option>Developing: keep working on it</option></select></div>
       <div><label for="sg-in">30-second introduction (1–5)</label><select id="sg-in" data-k="sign.intro" class="sg"><option value="">— choose —</option><option value="1">1 · Not yet able to introduce self</option><option value="2">2 · Some parts missing</option><option value="3">3 · Clear but general, no example</option><option value="4">4 · Clear with an example</option><option value="5">5 · Clear, confident, specific, under 45s</option></select></div>
     </div>
     <label for="sg-c">Mentor's final comment</label>
@@ -578,7 +578,7 @@ function renderSummary(){update();const bul=S.bul.map(bulletText).filter(Boolean
  <p><b>Try 1:</b> ${S.tries[1].sec?S.tries[1].sec+"s":"—"}${S.tries[1].rate?" · confidence "+S.tries[1].rate+"/5":""} &nbsp; <b>Try 2:</b> ${S.tries[2].sec?S.tries[2].sec+"s":"—"}${S.tries[2].rate?" · confidence "+S.tries[2].rate+"/5":""}</p>
  <h3>Mentor feedback</h3><p><b>Strengths:</b> ${v([S.meet.s1,S.meet.s2].filter(Boolean).join("; "))}</p><p><b>Fixes:</b> ${v([S.meet.f1,S.meet.f2].filter(Boolean).join("; "))}</p>
  <p><b>Bullet rewritten:</b> ${v(S.meet.rewrite)}</p><p><b>Delivery tip:</b> ${v(S.meet.tip)}</p><p><b>My question:</b> ${v(S.question)}<br><b>Answer:</b> ${v(S.meet.answer)}</p>
- <h3>Action plan</h3><ol>${S.plan.map(p=>`<li>${v(p)}</li>`).join("")}</ol><p><b>Career Centre final check by:</b> ${v(fmtD(S.cc))}</p>
+ <h3>Action plan</h3><ol>${S.plan.map(p=>`<li>${v(p)}</li>`).join("")}</ol><p><b>I will finish these steps by:</b> ${v(fmtD(S.cc))}</p>
  ${sg.signed?`<div class="tfb"><h3>Mentor's final feedback</h3><p><b>Mentor:</b> ${v(sg.mentor)} &nbsp; <b>Date:</b> ${v(fmtD(sg.date))}</p>
  <p><b>CV status:</b> ${v(sg.cv)}</p><p><b>30-second introduction:</b> ${sg.intro?esc(sg.intro)+"/5":"—"}</p><p><b>Comment:</b> ${v(sg.comment)}</p></div>`:""}
  ${sg.signed&&S._pct>=80?`<div class="cert"><div class="step-tag">Certificate</div><h2>Mentorship Ready</h2><p>This certifies that</p><div class="nm">${v(S.me.name)}</div>
@@ -622,11 +622,11 @@ const ACHV=["helped organise a college event for ___ students","volunteered at _
 const HELP={
  "f-name":{frames:[],tips:["Write your full name the way it is on your Emirates ID, in English.","Use capital letters only at the start: Mariam Ali Al Hosani, not MARIAM ALI."]},
  "f-prog":{frames:["Bachelor of ___ in ___","Diploma in ___","Business Administration – ___"],tips:["Write your programme, not just 'HCT'. Example: Business Administration – Human Resources."]},
- "f-job":{jobs:true,tips:["Choose one job title, not 'any job'. A clear goal helps you write a better CV.","Not sure? Look at the job title in an advert you like on LinkedIn, Bayt or the HCT Career Centre."]},
+ "f-job":{jobs:true,tips:["Choose one job title, not 'any job'. A clear goal helps you write a better CV.","Not sure? Look at job titles in adverts on LinkedIn or Bayt."]},
  "f-field":{words:FIELDS,tips:["The field is the area of work. One job can be in many fields: an HR Assistant can work in banking, aviation or government."]},
  "f-why":{frames:["I am interested in ___ because I enjoy ___.","I want to work in ___ because I like helping people / solving problems / working with technology.","This field is important for the UAE because ___.","I became interested in ___ when I ___."],
   examples:["I am interested in banking because I enjoy working with numbers and helping customers.","I want to work in aviation because I like meeting people from different countries, and Etihad is an important company for the UAE.","I became interested in IT when I fixed my family's computers and phones."]},
- "f-adv":{tips:["Search on LinkedIn, Bayt.com, Indeed UAE, or company career pages (ADNOC, Etihad, Emirates NBD, DEWA, TAQA, Etisalat (e&)).","Ask the HCT Career Centre about internships for your programme.","Write the company and the job title. Example: Emirates NBD – Customer Service Intern."]},
+ "f-adv":{tips:["Search on LinkedIn, Bayt.com, Indeed UAE, or company career pages (ADNOC, Etihad, Emirates NBD, DEWA, TAQA, Etisalat (e&)).","You don't need to apply now. Choose a job you would like in the future.","Write the company and the job title. Example: Emirates NBD – Customer Service Intern."]},
  "f-kw":{words:["teamwork","communication skills","customer service","Microsoft Office","Excel","problem solving","time management","attention to detail","English and Arabic","leadership","flexible","data entry"],tips:["Read the 'Requirements' or 'Skills' part of the advert. Copy three skills you see there."]},
  "f-who":{frames:["I am a ___-year ___ student at HCT with an interest in ___.","Business student at HCT with a strong interest in ___.","Motivated ___ student at Higher Colleges of Technology, specialising in ___."],
   examples:["I am a second-year IT student at HCT with an interest in cybersecurity.","Engineering student at HCT with a strong interest in renewable energy.","Motivated Health Sciences student at HCT, specialising in medical laboratory work."],tips:["Keep it to one sentence. Mention your programme and the area that interests you."]},
@@ -701,8 +701,8 @@ const GUIDE={
  "s-bul":{time:"About 7 minutes",steps:[["Read the Before / After example.",null],["Bullet 1: choose a verb, write the task and the result.",s=>{const b=s.bul[0];return F(b.verb)&&F(b.task)&&F(b.result)}],["Bullet 2: do the same for another job or activity.",s=>{const b=s.bul[1];return F(b.verb)&&F(b.task)&&F(b.result)}],["Add a number in at least one bullet.",s=>s.bul.some(b=>/\d/.test((b.task||"")+(b.result||"")))],["Put your new bullets into your CV.",null]]},
  "s-pitch":{time:"About 10 minutes",steps:[["Tap <b>Use my summary + achievement 1</b>, or write the 4 parts yourself.",s=>F(s.pitch.greet)&&F(s.pitch.who)&&F(s.pitch.bring)&&F(s.pitch.want)],["Read your script aloud 2–3 times.",null],["Record yourself (audio or video).",()=>takes.length>0],["Listen back. Is it 25–45 seconds? Did you look up?",()=>takes.length>0],["Save Try 1 and rate your confidence.",s=>s.tries[1].sec&&s.tries[1].rate],["Practise again, then save Try 2.",s=>s.tries[2].sec&&s.tries[2].rate],["Download the take you like best.",()=>dlCount>0]]},
  "s-meet":{time:"In the meeting",steps:[["Load your saved file and open this page.",null],["Write 2 strengths your mentor tells you.",s=>F(s.meet.s1)&&F(s.meet.s2)],["Write 2 things to fix.",s=>F(s.meet.f1)&&F(s.meet.f2)],["Copy the bullet you rewrote together.",s=>F(s.meet.rewrite)],["Choose your delivery tip.",s=>F(s.meet.tip)],["Write the answer to your question.",s=>F(s.meet.answer)]]},
- "s-plan":{time:"End of the meeting",steps:[["Write next step 1.",s=>F(s.plan[0])],["Write next step 2.",s=>F(s.plan[1])],["Write next step 3.",s=>F(s.plan[2])],["Choose a date to visit the Career Centre.",s=>F(s.cc)]]},
- "s-copy":{time:"Session 2 · last 2 minutes",steps:[["Check your record. Go back and fill any empty parts.",s=>s._pct>=80],["Ask your mentor to complete the sign-off.",s=>s.sign.signed],["Tap <b>Print / Save as PDF</b> and save it for your portfolio.",null],["Tap 💾 <b>Save my work</b> to keep your file.",()=>savedOnce&&!dirty],["Visit the Career Centre for your final CV check.",null]]}
+ "s-plan":{time:"End of the meeting",steps:[["Write next step 1.",s=>F(s.plan[0])],["Write next step 2.",s=>F(s.plan[1])],["Write next step 3.",s=>F(s.plan[2])],["Choose a date to finish your next steps.",s=>F(s.cc)]]},
+ "s-copy":{time:"Session 2 · last 2 minutes",steps:[["Check your record. Go back and fill any empty parts.",s=>s._pct>=80],["Ask your mentor to complete the sign-off.",s=>s.sign.signed],["Tap <b>⬇ Download final copy (PDF)</b> and keep it in your portfolio.",()=>pdfCount>0],["Tap 💾 <b>Save my work</b> to keep your file.",()=>savedOnce&&!dirty],["Keep updating your CV as you gain new experience.",null]]}
 };
 let savedOnce=false,dlCount=0,guideClosed=false;
 function renderGuide(){const s=secs[cur],g=GUIDE[s.id],el=document.getElementById("guide");if(!g){el.hidden=true;return;}el.hidden=false;
@@ -731,16 +731,84 @@ function renderReady(){const el=document.getElementById("readyList");if(!el)retu
  `<div class="readyMsg${n===r.length?" ok":""}">${n===r.length?"✓ You are ready for Session 2! Bring this app, your saved file and your CV.":`${n} of ${r.length} ready. Finish the rest before Session 2.`}</div>`;}
 function renderSign(){const st=document.getElementById("signStatus");if(!st)return;const sg=S.sign;
  document.querySelectorAll(".sg,#sg-code").forEach(e=>e.disabled=!!sg.signed);
+ const pb=document.getElementById("pdfBtn");if(pb){pb.textContent=sg.signed?"⬇ Download final copy (PDF)":"⬇ Download draft (PDF)";}
  const b=document.getElementById("signBtn");b.textContent=sg.signed?"Undo sign-off":"Sign final copy";b.className=sg.signed?"btn ghost":"btn lime";
  document.getElementById("sg-code").disabled=false;
  st.className="signStatus"+(sg.signed?" ok":"");
- st.innerHTML=sg.signed?`✓ Signed by ${esc(sg.mentor)} on ${esc(fmtD(sg.date))}. Your final copy is ready below. Print / Save as PDF, then tap 💾 Save my work.`:"";}
+ st.innerHTML=sg.signed?`✓ Signed by ${esc(sg.mentor)} on ${esc(fmtD(sg.date))}. Tap <b>⬇ Download final copy (PDF)</b> above, then 💾 Save my work.`:"";}
 function signOff(){const sg=S.sign,code=document.getElementById("sg-code"),st=document.getElementById("signStatus");
  if(code.value.trim()!==TEACHER_CODE){st.className="signStatus";st.textContent="The mentor code is not correct. Only your mentor can sign.";code.focus();return;}
  if(sg.signed){sg.signed=false;sg.date="";code.value="";markDirty();renderSign();renderSummary();toast("Sign-off removed. The record is a draft again.");return;}
  if(!F(sg.mentor)||!F(sg.comment)){st.className="signStatus";st.textContent="Please add the mentor's name and a final comment first.";return;}
  sg.signed=true;sg.date=new Date().toISOString().slice(0,10);code.value="";markDirty();renderSign();renderSummary();confetti();toast("✅ Final copy signed!");
  document.getElementById("summary").scrollIntoView&&document.getElementById("summary").scrollIntoView({behavior:"smooth"});}
+// ---------- FINAL COPY PDF (built in the app, no libraries) ----------
+let pdfCount=0;
+const PDFMAP={"‘":145,"’":146,"“":147,"”":148,"•":149,"–":150,"—":151,"…":133};
+function pclean(t){let o="";for(const ch of String(t==null?"":t).replace(/\s+/g," ").trim()){const c=ch.codePointAt(0);if(PDFMAP[ch]||(c>=32&&c<256))o+=ch;}return o.replace(/\s+/g," ").trim();}
+function penc(t){let o="";for(const ch of pclean(t)){o+=PDFMAP[ch]?String.fromCharCode(PDFMAP[ch]):ch;}return o.replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)");}
+const mctx=(()=>{try{return document.createElement("canvas").getContext("2d");}catch(e){return null;}})();
+function tw(t,size,f){if(!mctx)return t.length*size*0.52;mctx.font=(f==="B"?"bold ":f==="I"?"italic ":"")+size+"px Helvetica, Arial, sans-serif";return mctx.measureText(t).width;}
+function pwrap(t,size,f,maxW){const words=pclean(t).split(" ").filter(Boolean),lines=[];let cur="";
+ for(const w of words){const test=cur?cur+" "+w:w;if(tw(test,size,f)<=maxW||!cur)cur=test;else{lines.push(cur);cur=w;}}if(cur)lines.push(cur);return lines.length?lines:[""];}
+function buildPDF(){const W=595,H=842,M=50,CW=W-2*M,sg=S.sign;const pages=[];let ops,y;
+ const NAVY="0.086 0.141 0.290",LIME="0.549 0.776 0.247",SOFT="0.933 0.969 0.882",MUTED="0.365 0.404 0.510",INK="0.106 0.133 0.212",WHITE="1 1 1";
+ const newPage=()=>{ops=[];pages.push(ops);y=H-M;};
+ const txt=(x,yy,t,size,f,col)=>ops.push(`BT /${f==="B"?"F2":f==="I"?"F3":"F1"} ${size} Tf ${col||INK} rg ${x.toFixed(2)} ${yy.toFixed(2)} Td (${penc(t)}) Tj ET`);
+ const ctxt=(yy,t,size,f,col)=>txt((W-tw(pclean(t),size,f))/2,yy,t,size,f,col);
+ const rect=(x,yy,w,hh,fill,stroke,lw)=>ops.push(`${fill?fill+" rg ":""}${stroke?stroke+" RG "+(lw||1)+" w ":""}${x.toFixed(2)} ${yy.toFixed(2)} ${w.toFixed(2)} ${hh.toFixed(2)} re ${fill&&stroke?"B":fill?"f":"S"}`);
+ const need=hh=>{if(y-hh<M+28)newPage();};
+ const LH=15,SZ=10.5;
+ const heading=t=>{need(40);y-=24;txt(M,y,t,13,"B",NAVY);y-=6;rect(M,y,CW,1.5,LIME);y-=2;};
+ const field=(lbl,val)=>{const l=pclean(lbl)+" ",lw=tw(l,SZ,"B"),has=!!pclean(val);const lines=pwrap(has?val:"—",SZ,"R",CW-lw);
+  lines.forEach((ln,i)=>{need(LH);y-=LH;if(i===0)txt(M,y,l,SZ,"B",NAVY);txt(M+lw,y,ln,SZ,"R",has?INK:MUTED);});};
+ const para=(t,f)=>{const has=!!pclean(t);pwrap(has?t:"—",SZ,f||"R",CW).forEach(ln=>{need(LH);y-=LH;txt(M,y,ln,SZ,f||"R",has?INK:MUTED);});};
+ const list=(arr,num)=>arr.forEach((it,i)=>{const has=!!pclean(it);pwrap(has?it:"—",SZ,"R",CW-18).forEach((ln,j)=>{need(LH);y-=LH;if(j===0)txt(M+2,y,num?(i+1)+".":"•",SZ,"B",NAVY);txt(M+18,y,ln,SZ,"R",has?INK:MUTED);});});
+ // page 1 header
+ newPage();rect(0,H-96,W,96,NAVY);txt(M,H-40,"LSC 1503  ·  CAREER MENTORSHIP",9,"B",LIME);txt(M,H-68,"Career Mentorship Record",22,"B",WHITE);
+ const stamp=sg.signed?"FINAL COPY":"DRAFT",sw=tw(stamp,10,"B")+20;rect(W-M-sw,H-74,sw,22,sg.signed?LIME:"0.992 0.925 0.784");txt(W-M-sw+10,H-67,stamp,10,"B",NAVY);
+ y=H-96-8;
+ need(LH);y-=LH+4;txt(M,y,S.me.name||"Student name",15,"B",NAVY);
+ field("Student ID:",S.me.id);field("Programme:",S.me.prog);field("Session 2 meeting:",fmtD(S.me.date));
+ if(!sg.signed){need(LH);y-=LH;txt(M,y,"This is a draft. It becomes the final copy when your mentor signs it in Session 2.",9.5,"I",MUTED);}
+ heading("Career goal");field("Job:",S.goal.job);field("Field:",S.goal.field);field("Why:",S.goal.why);field("Advert:",S.goal.advert);field("Keywords:",S.goal.keywords);
+ heading("Professional summary");para([S.sum.who,S.sum.bring,S.sum.want].filter(F).join(" "));
+ heading("Achievements");list(S.ach,true);
+ const ok=CHECK.filter((c,i)=>S.check[i]).map(c=>c[0]),todo=CHECK.filter((c,i)=>!S.check[i]).map(c=>c[0]);
+ heading("CV self-check");field(`Correct (${ok.length}/10):`,ok.join(", "));field("To work on:",todo.length?todo.join(", "):"Nothing. Great work!");
+ const bl=S.bul.map(bulletText).filter(F);heading("My CV bullets");list(bl.length?bl:[""],false);
+ heading("30-second introduction");para([S.pitch.greet,S.pitch.who,S.pitch.bring,S.pitch.want].filter(F).join(" "),"I");
+ const tr=n=>S.tries[n].sec?`${S.tries[n].sec} seconds${S.tries[n].rate?`, confidence ${S.tries[n].rate}/5`:""}`:"";
+ field("Try 1:",tr(1));field("Try 2:",tr(2));
+ heading("Mentor feedback (my notes)");field("Strengths:",[S.meet.s1,S.meet.s2].filter(F).join("; "));field("To improve:",[S.meet.f1,S.meet.f2].filter(F).join("; "));
+ field("Bullet we rewrote:",S.meet.rewrite);field("Delivery tip:",S.meet.tip);field("My question:",S.question);field("Answer:",S.meet.answer);
+ heading("Action plan");list(S.plan,true);field("I will finish these steps by:",fmtD(S.cc));
+ if(sg.signed){const rows=[["Mentor:",sg.mentor],["Date:",fmtD(sg.date)],["CV status:",sg.cv],["30-second introduction:",sg.intro?sg.intro+"/5":""],["Comment:",sg.comment]];
+  const wr=rows.map(([l,v])=>pwrap(v||"—",SZ,"R",CW-24-tw(l+" ",SZ,"B")));const bh=30+wr.reduce((a,l)=>a+l.length,0)*LH+12;
+  need(bh+16);y-=16;rect(M,y-bh,CW,bh,SOFT,LIME,2);txt(M+12,y-20,"Mentor's final feedback",12,"B",NAVY);let yy=y-26;
+  rows.forEach(([l,v],i)=>{const lw=tw(l+" ",SZ,"B");wr[i].forEach((ln,j)=>{yy-=LH;if(j===0)txt(M+12,yy,l,SZ,"B",NAVY);txt(M+12+lw,yy,ln,SZ,"R",v?INK:MUTED);});});y-=bh;}
+ // certificate page
+ if(sg.signed&&S._pct>=80){newPage();rect(40,230,W-80,470,SOFT,NAVY,4);rect(50,240,W-100,450,null,LIME,1.5);
+  ctxt(640,"CERTIFICATE",11,"B",LIME);ctxt(600,"Mentorship Ready",30,"B",NAVY);ctxt(560,"This certifies that",12,"R",MUTED);
+  ctxt(515,S.me.name||"Student",24,"B",NAVY);rect(150,503,W-300,1.5,LIME);
+  ctxt(470,"prepared for and completed a two-session career mentorship",12,"R");ctxt(452,`with ${S._pts} points and ${earned.size} of 7 badges.`,12,"R");
+  ctxt(400,`Signed by ${sg.mentor||"—"}  ·  ${fmtD(sg.date)}`,12,"B",NAVY);ctxt(300,"LSC 1503 Professional Spoken Communication  ·  HCT",10,"R",MUTED);}
+ pages.forEach((p,i)=>{p.push(`${LIME} rg ${M} 40 ${CW} 0.8 re f`);
+  const save=ops;ops=p;txt(M,28,"Designed by: Nazila Motahari  ·  LSC 1503 Career Mentorship",8,"R",MUTED);const pg=`Page ${i+1} of ${pages.length}`;txt(W-M-tw(pg,8,"R"),28,pg,8,"R",MUTED);ops=save;});
+ // assemble
+ const objs=[],add=s=>(objs.push(s),objs.length);const cat=add(""),pid=add("");
+ const font=n=>add(`<< /Type /Font /Subtype /Type1 /BaseFont /${n} /Encoding /WinAnsiEncoding >>`);const f1=font("Helvetica"),f2=font("Helvetica-Bold"),f3=font("Helvetica-Oblique");
+ const kids=pages.map(p=>{const s=p.join("\n");const c=add(`<< /Length ${s.length} >>\nstream\n${s}\nendstream`);
+  return add(`<< /Type /Page /Parent ${pid} 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 ${f1} 0 R /F2 ${f2} 0 R /F3 ${f3} 0 R >> >> /Contents ${c} 0 R >>`);});
+ objs[cat-1]=`<< /Type /Catalog /Pages ${pid} 0 R >>`;objs[pid-1]=`<< /Type /Pages /Kids [${kids.map(k=>k+" 0 R").join(" ")}] /Count ${kids.length} >>`;
+ const info=add(`<< /Title (${penc("Career Mentorship Record - "+(S.me.name||"Student"))}) /Author (${penc(S.me.name||"Student")}) /Creator (Career Mentor Prep) >>`);
+ let out="%PDF-1.4\n%âãÏÓ\n";const off=[];objs.forEach((o,i)=>{off.push(out.length);out+=`${i+1} 0 obj\n${o}\nendobj\n`;});
+ const x=out.length;out+=`xref\n0 ${objs.length+1}\n0000000000 65535 f \n`+off.map(o=>String(o).padStart(10,"0")+" 00000 n \n").join("")+`trailer\n<< /Size ${objs.length+1} /Root ${cat} 0 R /Info ${info} 0 R >>\nstartxref\n${x}\n%%EOF`;
+ const b=new Uint8Array(out.length);for(let i=0;i<out.length;i++)b[i]=out.charCodeAt(i)&255;return b;}
+function downloadPDF(){let bytes;try{bytes=buildPDF();}catch(e){console.error(e);toast("Sorry, the PDF could not be made. Please try again.");return;}
+ const nm=(S.me.name||"Student").trim().replace(/\s+/g,"_").replace(/[^\w]/g,"")||"Student";const fn=`${nm}_Career_Mentorship_${S.sign.signed?"FINAL":"DRAFT"}.pdf`;
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([bytes],{type:"application/pdf"}));a.download=fn;document.body.appendChild(a);a.click();
+ setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);pdfCount++;renderGuide();toast((S.sign.signed?"Final copy":"Draft")+" downloaded: "+fn);}
 let ready=false;bindAll();ready=true;go(0);
 </script>
 </body>
