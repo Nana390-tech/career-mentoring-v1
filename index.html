@@ -133,6 +133,29 @@ table.gl td:last-child{direction:rtl;text-align:right;font-family:Tahoma,Arial,s
 .guide .gtoggle{display:none}
 @media (min-width:1000px){.layout{grid-template-columns:minmax(0,1fr) 300px}.guide{grid-column:2;grid-row:1;position:sticky;top:70px;align-self:start;max-height:calc(100vh - 90px);overflow:auto}.layout>.content{grid-column:1;grid-row:1}}
 @media (max-width:999px){.guide .gtoggle{display:inline-block;float:right;border:0;background:none;color:var(--navy2);font:700 14px var(--font);cursor:pointer}.guide.closed ol,.guide.closed .gbar,.guide.closed .gdone{display:none}}
+.sessions{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:14px}
+.sess{border-radius:14px;padding:16px;border:2px solid var(--line)}
+.sess.s1{border-color:var(--navy2);background:var(--sky)}
+.sess.s2{border-color:var(--lime);background:var(--limeSoft)}
+.sessHead{font-weight:700;color:var(--navy);margin-bottom:6px}
+.sessHead span{display:inline-block;background:var(--navy);color:#fff;border-radius:6px;padding:2px 9px;margin-right:8px;font-size:13px}
+.sess.s2 .sessHead span{background:var(--lime);color:var(--navy)}
+.sess ol{margin:0;padding-left:20px}.sessHome{margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--card);border:1px dashed var(--navy2);font-size:15px}.sess li{margin:5px 0}
+.ready{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.ready:last-child{border-bottom:0}
+.ready i{font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--sky);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--muted)}
+.ready.ok i{background:var(--lime);color:var(--navy)}
+.ready button{border:0;background:none;color:var(--navy2);font:700 14px var(--font);cursor:pointer;text-decoration:underline}
+.readyMsg{margin-top:12px;font-weight:700;padding:10px 14px;border-radius:10px;background:var(--sky);color:var(--navy)}
+.readyMsg.ok{background:var(--lime)}
+.tabgrp{flex:0 0 auto;align-self:center;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--lime2);padding:0 4px 0 10px;white-space:nowrap}
+.signStatus{margin-top:12px;font-weight:700}
+.signStatus.ok{background:var(--limeSoft);border:2px solid var(--lime);border-radius:10px;padding:10px 14px;color:var(--navy)}
+.stamp{display:inline-block;font-weight:800;letter-spacing:.08em;border-radius:8px;padding:5px 12px;font-size:13px;margin-bottom:8px}
+.stamp.final{background:var(--lime);color:var(--navy)}
+.stamp.draft{background:#fdecc8;color:#7a5200;border:1px dashed var(--warn)}
+.tfb{border:2px solid var(--navy);border-radius:12px;padding:12px 14px;margin-top:16px;break-inside:avoid}
+.tfb h3{margin-top:0!important;border:0!important}
 canvas#cf{position:fixed;inset:0;pointer-events:none;z-index:25}
 footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30px}
 @media print{
@@ -169,17 +192,53 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <aside class="guide noprint" id="guide" aria-label="Steps for this page"></aside>
 <div class="content">
 
+<!-- 0 START -->
+<section id="s-start" data-title="Start here">
+  <div class="card">
+    <span class="step-tag">Start here</span>
+    <h2>How this works: two sessions</h2>
+    <p class="lead">You meet your mentor twice, for 15 minutes each time. Session 1 gets you started. Session 2 is the follow-up, where you get feedback and your final copy.</p>
+    <div class="sessions">
+      <div class="sess s1">
+        <div class="sessHead"><span>Session 1</span>15-minute meeting with your mentor</div>
+        <ol>
+          <li>Talk with your mentor about the job you want.</li>
+          <li>Your mentor shows you how to use this app.</li>
+          <li>Start Steps 1–2 together, and try your 30-second introduction.</li>
+          <li>Tap <b>💾 Save my work</b> and book your Session 2 time.</li>
+        </ol>
+        <div class="sessHome"><b>Before Session 2 (at home):</b> load your file, finish Steps 1–7, record your introduction and download your best take.</div>
+      </div>
+      <div class="sess s2">
+        <div class="sessHead"><span>Session 2</span>15-minute follow-up with your mentor</div>
+        <ol>
+          <li>Bring your laptop or phone, your saved file, and your CV.</li>
+          <li>Your mentor looks at your work and listens to your introduction.</li>
+          <li>Write your feedback in Step 8 and your action plan in Step 9.</li>
+          <li>Your mentor signs your work in Step 10.</li>
+          <li>Download your <b>final copy</b> as a PDF for your portfolio.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Am I ready for Session 2?</h3>
+    <p class="lead">These tick automatically when you finish each part.</p>
+    <div id="readyList"></div>
+  </div>
+</section>
+
 <!-- 1 ABOUT ME -->
 <section id="s-me" data-title="1. About me">
   <div class="card">
-    <span class="step-tag">Step 1 · Before the meeting</span>
+    <span class="step-tag">Step 1 · Session 1 · Prepare</span>
     <h2>About me</h2>
-    <p class="lead">You will meet your teacher for 15 minutes about your CV and career. Prepare here first, then bring this app to the meeting.</p>
+    <p class="lead">Start this with your mentor in Session 1. You will bring all your work to your follow-up meeting in Session 2.</p>
     <div class="grid2">
       <div><label for="f-name">Full name</label><input id="f-name" type="text" data-k="me.name" placeholder="e.g. Mariam Ali"></div>
       <div><label for="f-id">Student ID</label><input id="f-id" type="text" data-k="me.id" placeholder="H00…"></div>
       <div><label for="f-prog">Programme / major</label><input id="f-prog" type="text" data-k="me.prog" placeholder="e.g. Business – HR"></div>
-      <div><label for="f-date">Meeting date</label><input id="f-date" type="date" data-k="me.date"></div>
+      <div><label for="f-date">Session 2 meeting date</label><input id="f-date" type="date" data-k="me.date"></div>
     </div>
     <div class="tip"><b>Save your work!</b> Use <b>Save my work</b> in the last step to download a file. Next time, use <b>Load my work</b> to continue.</div>
   </div>
@@ -188,9 +247,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <!-- 2 GOAL -->
 <section id="s-goal" data-title="2. Career goal">
   <div class="card">
-    <span class="step-tag">Step 2 · Before the meeting</span>
+    <span class="step-tag">Step 2 · Session 1 · Prepare</span>
     <h2>My career goal</h2>
-    <p class="lead">Your teacher will ask: <i>"What kind of job do you see yourself in after HCT?"</i></p>
+    <p class="lead">Your mentor will ask: <i>"What kind of job do you see yourself in after HCT?"</i></p>
     <label for="f-job">The job I want <span class="hint">(job title)</span></label>
     <input id="f-job" type="text" data-k="goal.job" placeholder="e.g. HR Assistant, Data Analyst, Customs Officer">
     <label for="f-field">The field / industry</label>
@@ -209,7 +268,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <!-- 3 SUMMARY -->
 <section id="s-sum" data-title="3. Professional summary">
   <div class="card">
-    <span class="step-tag">Step 3 · Before the meeting</span>
+    <span class="step-tag">Step 3 · Prepare at home</span>
     <h2>My professional summary</h2>
     <p class="lead">Formula: <b>Who I am</b> + <b>What I bring</b> + <b>What I want</b>.</p>
     <label for="f-who">Who I am <span class="hint">— "I am a ___ student at HCT with an interest in ___."</span></label>
@@ -229,7 +288,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <!-- 4 ACHIEVEMENTS -->
 <section id="s-ach" data-title="4. Achievements">
   <div class="card">
-    <span class="step-tag">Step 4 · Before the meeting</span>
+    <span class="step-tag">Step 4 · Prepare at home</span>
     <h2>Three things I'm proud of</h2>
     <p class="lead">From college, work, volunteering, sport, clubs or a family business. Add a number if you can.</p>
     <label for="f-a1">Achievement 1</label><textarea id="f-a1" data-k="ach.0" placeholder="e.g. Helped organise a college event for 100+ students"></textarea>
@@ -244,9 +303,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <!-- 5 CV CHECK -->
 <section id="s-check" data-title="5. CV self-check">
   <div class="card">
-    <span class="step-tag">Step 5 · Before the meeting</span>
+    <span class="step-tag">Step 5 · Prepare at home</span>
     <h2>CV self-check</h2>
-    <p class="lead">Open your CV. Tick each item that is <b>already correct</b>. Your teacher will check it with you.</p>
+    <p class="lead">Open your CV. Tick each item that is <b>already correct</b>. Your mentor will check it with you.</p>
     <div id="checklist"></div>
     <div class="tip">Free tools: <a href="https://resume.io/resume-templates/ats" target="_blank" rel="noopener">ATS-friendly templates</a> · <a href="https://www.atsfriendly.com/" target="_blank" rel="noopener">ATS compatibility checker</a></div>
   </div>
@@ -255,7 +314,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <!-- 6 BULLETS -->
 <section id="s-bul" data-title="6. Bullet builder">
   <div class="card">
-    <span class="step-tag">Step 6 · Before / during the meeting</span>
+    <span class="step-tag">Step 6 · Prepare at home</span>
     <h2>Bullet builder</h2>
     <p class="lead">Formula: <b>Action Verb + Task + Result</b>. Never start with "Responsible for…".</p>
     <div class="model"><b>Before:</b> Responsible for helping customers in my father's shop.<br><b>After:</b> Served 40+ customers daily in a family retail business, improving repeat visits through friendly service.</div>
@@ -267,9 +326,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <!-- 7 PITCH -->
 <section id="s-pitch" data-title="7. 30-second intro">
   <div class="card">
-    <span class="step-tag">Step 7 · Practise, then do it in the meeting</span>
+    <span class="step-tag">Step 7 · Prepare at home</span>
     <h2>My 30-second introduction</h2>
-    <p class="lead">Your teacher will say: <i>"Imagine I'm a manager. Introduce yourself in 30 seconds."</i></p>
+    <p class="lead">Your mentor will say: <i>"Imagine I'm a manager. Introduce yourself in 30 seconds."</i></p>
     <div class="grid2">
       <div><label for="p1">1. Greeting + name</label><textarea id="p1" data-k="pitch.greet" placeholder="Good morning, my name is …"></textarea></div>
       <div><label for="p2">2. Who I am</label><textarea id="p2" data-k="pitch.who" placeholder="I'm a second-year … student at HCT …"></textarea></div>
@@ -308,7 +367,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
       <div class="timer" id="recTimer">0.0s</div>
       <button class="btn lime" type="button" id="recBtn" onclick="toggleRec()">● Start recording</button>
     </div>
-    <div class="hint" id="recMsg">Tip: put your script on the screen, but look up at the camera or your teacher as much as you can.</div>
+    <div class="hint" id="recMsg">Tip: put your script on the screen, but look up at the camera or your mentor as much as you can.</div>
     <div id="takes"></div>
     <div class="tip">Recordings are <b>not</b> stored in your save file. Download each one you want to keep. Name: <b>FirstName_LastName_Intro_Take1</b>.</div>
   </div>
@@ -317,9 +376,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <!-- 8 MEETING -->
 <section id="s-meet" data-title="8. Meeting notes">
   <div class="card">
-    <span class="step-tag">Step 8 · During the meeting</span>
+    <span class="step-tag">Step 8 · Session 2 · With your mentor</span>
     <h2>Mentor feedback</h2>
-    <p class="lead">Write your teacher's feedback here during the meeting.</p>
+    <p class="lead">In Session 2, write your mentor's feedback here in your own words.</p>
     <div class="grid2">
       <div><label for="m-s1">CV strength 1 ✓</label><input id="m-s1" type="text" data-k="meet.s1"></div>
       <div><label for="m-s2">CV strength 2 ✓</label><input id="m-s2" type="text" data-k="meet.s2"></div>
@@ -345,9 +404,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 <!-- 9 PLAN -->
 <section id="s-plan" data-title="9. Action plan">
   <div class="card">
-    <span class="step-tag">Step 9 · End of the meeting</span>
+    <span class="step-tag">Step 9 · Session 2 · With your mentor</span>
     <h2>My action plan</h2>
-    <p class="lead">Your teacher will ask: <i>"What are the two things you will change this week?"</i></p>
+    <p class="lead">Your mentor will ask: <i>"What are the two things you will change this week?"</i></p>
     <label for="a1">Next step 1</label><input id="a1" type="text" data-k="plan.0" placeholder="e.g. Rewrite my work experience bullets with action verbs">
     <label for="a2">Next step 2</label><input id="a2" type="text" data-k="plan.1" placeholder="e.g. Remove my photo and date of birth">
     <label for="a3">Next step 3</label><input id="a3" type="text" data-k="plan.2" placeholder="e.g. Add keywords from the advert to my skills">
@@ -359,11 +418,11 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
 </section>
 
 <!-- 10 COPY -->
-<section id="s-copy" data-title="10. My copy">
+<section id="s-copy" data-title="10. Final copy">
   <div class="card noprint">
-    <span class="step-tag">Step 10 · Keep your copy</span>
-    <h2>My copy</h2>
-    <p class="lead">Print or save as PDF for your portfolio. Save your work file to continue later.</p>
+    <span class="step-tag">Step 10 · Session 2 · Final copy</span>
+    <h2>My final copy</h2>
+    <p class="lead">Your mentor signs your work below in Session 2. Then print or save your final copy as a PDF for your portfolio.</p>
     <div class="row">
       <button class="btn lime" type="button" onclick="window.print()">Print / Save as PDF</button>
       <button class="btn" type="button" onclick="saveJSON()">Save my work</button>
@@ -371,6 +430,21 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:20px 16px 30p
     </div>
     <h3 style="margin-top:20px">My badges</h3>
     <div class="badges" id="badgeList"></div>
+  </div>
+  <div class="card noprint" id="signCard">
+    <h3>✍️ Mentor sign-off <span class="hint">· your mentor completes this in Session 2</span></h3>
+    <div class="grid2">
+      <div><label for="sg-t">Mentor's name</label><input id="sg-t" type="text" data-k="sign.mentor" class="sg"></div>
+      <div><label for="sg-cv">CV status</label><select id="sg-cv" data-k="sign.cv" class="sg"><option value="">— choose —</option><option>Ready for the Career Centre</option><option>Nearly ready: small fixes needed</option><option>Needs more work before the Career Centre</option></select></div>
+      <div><label for="sg-in">30-second introduction (1–5)</label><select id="sg-in" data-k="sign.intro" class="sg"><option value="">— choose —</option><option value="1">1 · Not yet able to introduce self</option><option value="2">2 · Some parts missing</option><option value="3">3 · Clear but general, no example</option><option value="4">4 · Clear with an example</option><option value="5">5 · Clear, confident, specific, under 45s</option></select></div>
+    </div>
+    <label for="sg-c">Mentor's final comment</label>
+    <textarea id="sg-c" data-k="sign.comment" class="sg"></textarea>
+    <div class="row">
+      <div style="flex:1;min-width:180px"><label for="sg-code" style="margin-top:0">Mentor code</label><input id="sg-code" type="password" autocomplete="off" placeholder="Mentor enters code"></div>
+      <button class="btn lime" type="button" id="signBtn" onclick="signOff()" style="align-self:flex-end">Sign final copy</button>
+    </div>
+    <div class="signStatus" id="signStatus"></div>
   </div>
   <div class="card sum" id="summary"></div>
 </section>
@@ -423,12 +497,15 @@ let S=fresh(), cur=0, dirty=false, earned=new Set();
 function fresh(){return{me:{name:"",id:"",prog:"",date:""},goal:{job:"",field:"",why:"",advert:"",keywords:""},sum:{who:"",bring:"",want:""},
  ach:["","",""],question:"",check:{},bul:[{verb:"",task:"",result:""},{verb:"",task:"",result:""},{verb:"",task:"",result:""}],
  pitch:{greet:"",who:"",bring:"",want:""},tries:{1:{sec:0,rate:0},2:{sec:0,rate:0}},
- meet:{s1:"",s2:"",f1:"",f2:"",rewrite:"",tip:"",answer:""},plan:["","",""],cc:""};}
+ meet:{s1:"",s2:"",f1:"",f2:"",rewrite:"",tip:"",answer:""},plan:["","",""],cc:"",
+ sign:{mentor:"",cv:"",intro:"",comment:"",signed:false,date:""}};}
 const secs=[...document.querySelectorAll("section")];
 const tabs=document.getElementById("tabs");
-secs.forEach((s,i)=>{const b=document.createElement("button");b.type="button";b.textContent=s.dataset.title;b.onclick=()=>go(i);tabs.appendChild(b);});
+const tabBtns=[];const GRP={"s-me":"Session 1 + home · Prepare","s-meet":"Session 2 · Follow-up"};
+secs.forEach((s,i)=>{if(GRP[s.id]){const l=document.createElement("span");l.className="tabgrp";l.textContent=GRP[s.id];tabs.appendChild(l);}
+ const b=document.createElement("button");b.type="button";b.textContent=s.dataset.title;b.onclick=()=>go(i);tabs.appendChild(b);tabBtns.push(b);});
 function go(i){if(i<0||i>=secs.length)return;cur=i;secs.forEach((s,j)=>s.classList.toggle("on",j===i));
- [...tabs.children].forEach((b,j)=>b.classList.toggle("on",j===i));tabs.children[i].scrollIntoView({inline:"center",block:"nearest"});
+ tabBtns.forEach((b,j)=>b.classList.toggle("on",j===i));if(tabBtns[i].scrollIntoView)tabBtns[i].scrollIntoView({inline:"center",block:"nearest"});
  document.getElementById("prevB").style.visibility=i?"visible":"hidden";document.getElementById("nextB").style.visibility=i<secs.length-1?"visible":"hidden";
  if(secs[i].id==="s-copy")renderSummary();renderGuide();window.scrollTo({top:0,behavior:"smooth"});}
 function getP(o,p){return p.split(".").reduce((a,k)=>a==null?a:a[k],o);}
@@ -470,7 +547,7 @@ function update(){
  got.forEach(b=>{if(!earned.has(b[0])&&ready){toast(`${b[1]} Badge earned: ${b[2]}!`);confetti();}});earned=ids;
  const done={"s-me":S.me.name&&S.me.prog,"s-goal":ids.has("goal"),"s-sum":ids.has("sum"),"s-ach":ids.has("ach"),"s-check":ids.has("check"),"s-bul":ids.has("bul"),
   "s-pitch":ids.has("pitch"),"s-meet":S.meet.s1&&S.meet.f1,"s-plan":ids.has("plan")};
- secs.forEach((s,i)=>tabs.children[i].classList.toggle("done",!!done[s.id]));
+ secs.forEach((s,i)=>tabBtns[i].classList.toggle("done",!!done[s.id]));
  const n=Object.values(done).filter(Boolean).length,pct=Math.round(n/9*100);
  const pts=got.length*20+Object.values(S.check).filter(Boolean).length*2+(S.question?5:0)+(S.meet.s1?10:0);
  document.getElementById("pts").textContent=pts;document.getElementById("bdg").textContent=got.length;
@@ -478,14 +555,18 @@ function update(){
  document.getElementById("badgeList").innerHTML=BADGES.map(b=>`<div class="badge${ids.has(b[0])?" got":""}"><i>${b[1]}</i>${b[2]}</div>`).join("");
  S._pct=pct;S._pts=pts;
  if(typeof renderGuide==="function"&&secs[cur])renderGuide();
+ if(typeof renderReady==="function")renderReady();
+ if(typeof renderSign==="function")renderSign();
 }
 function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 function v(t){return t?esc(t):'<span class="empty">—</span>';}
 function fmtD(d){if(!d)return"";const x=new Date(d+"T00:00");return x.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});}
 function renderSummary(){update();const bul=S.bul.map(bulletText).filter(Boolean);
  const checked=CHECK.filter((c,i)=>S.check[i]).map(c=>c[0]),todo=CHECK.filter((c,i)=>!S.check[i]).map(c=>c[0]);
- document.getElementById("summary").innerHTML=`<h2 style="margin-top:0">Career Mentorship Record</h2>
- <p><b>${v(S.me.name)}</b> · ID: ${v(S.me.id)} · ${v(S.me.prog)}<br>Meeting date: ${v(fmtD(S.me.date))}</p>
+ const sg=S.sign,CVTXT={"":"—"};
+ document.getElementById("summary").innerHTML=`${sg.signed?`<span class="stamp final">FINAL COPY · Signed ${esc(fmtD(sg.date))}</span>`:`<span class="stamp draft">DRAFT · Not yet signed by your mentor</span>`}
+ <h2 style="margin-top:0">Career Mentorship Record</h2>
+ <p><b>${v(S.me.name)}</b> · ID: ${v(S.me.id)} · ${v(S.me.prog)}<br>Session 2 meeting: ${v(fmtD(S.me.date))}</p>
  <h3>Career goal</h3><p><b>Job:</b> ${v(S.goal.job)} &nbsp; <b>Field:</b> ${v(S.goal.field)}</p><p><b>Why:</b> ${v(S.goal.why)}</p>
  <p><b>Advert:</b> ${v(S.goal.advert)} &nbsp; <b>Keywords:</b> ${v(S.goal.keywords)}</p>
  <h3>Professional summary</h3><p>${v([S.sum.who,S.sum.bring,S.sum.want].filter(Boolean).join(" "))}</p>
@@ -498,9 +579,11 @@ function renderSummary(){update();const bul=S.bul.map(bulletText).filter(Boolean
  <h3>Mentor feedback</h3><p><b>Strengths:</b> ${v([S.meet.s1,S.meet.s2].filter(Boolean).join("; "))}</p><p><b>Fixes:</b> ${v([S.meet.f1,S.meet.f2].filter(Boolean).join("; "))}</p>
  <p><b>Bullet rewritten:</b> ${v(S.meet.rewrite)}</p><p><b>Delivery tip:</b> ${v(S.meet.tip)}</p><p><b>My question:</b> ${v(S.question)}<br><b>Answer:</b> ${v(S.meet.answer)}</p>
  <h3>Action plan</h3><ol>${S.plan.map(p=>`<li>${v(p)}</li>`).join("")}</ol><p><b>Career Centre final check by:</b> ${v(fmtD(S.cc))}</p>
- ${S._pct>=80?`<div class="cert"><div class="step-tag">Certificate</div><h2>Mentorship Ready</h2><p>This certifies that</p><div class="nm">${v(S.me.name)}</div>
- <p>prepared for and completed a career mentorship session<br>with ${S._pts} points and ${earned.size} of 7 badges.</p><p style="font-size:14px;color:var(--muted)">LSC 1503 · HCT · Designed by: Nazila Motahari</p></div>`
- :`<div class="tip noprint">Reach 80% ready to unlock your <b>Mentorship Ready</b> certificate. You are at ${S._pct}%.</div>`}`;}
+ ${sg.signed?`<div class="tfb"><h3>Mentor's final feedback</h3><p><b>Mentor:</b> ${v(sg.mentor)} &nbsp; <b>Date:</b> ${v(fmtD(sg.date))}</p>
+ <p><b>CV status:</b> ${v(sg.cv)}</p><p><b>30-second introduction:</b> ${sg.intro?esc(sg.intro)+"/5":"—"}</p><p><b>Comment:</b> ${v(sg.comment)}</p></div>`:""}
+ ${sg.signed&&S._pct>=80?`<div class="cert"><div class="step-tag">Certificate</div><h2>Mentorship Ready</h2><p>This certifies that</p><div class="nm">${v(S.me.name)}</div>
+ <p>prepared for and completed a career mentorship session<br>with ${S._pts} points and ${earned.size} of 7 badges.</p><p>Signed by ${v(sg.mentor)} · ${esc(fmtD(sg.date))}</p><p style="font-size:14px;color:var(--muted)">LSC 1503 · HCT · Designed by: Nazila Motahari</p></div>`
+ :`<div class="tip noprint">${sg.signed?`Reach 80% ready to unlock your <b>Mentorship Ready</b> certificate. You are at ${S._pct}%.`:`Your <b>final copy</b> and certificate unlock when your mentor signs in Session 2. You are ${S._pct}% ready.`}</div>`}`;}
 // save / load
 function saveJSON(){const d=JSON.parse(JSON.stringify(S));d._app="career-mentor-prep";d._saved=new Date().toISOString();
  const nm=(S.me.name||"Student").trim().replace(/\s+/g,"_").replace(/[^\w]/g,"");
@@ -508,7 +591,7 @@ function saveJSON(){const d=JSON.parse(JSON.stringify(S));d._app="career-mentor-
  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
  const t=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});markSaved(`<b>Saved at ${t}</b> as ${nm}_Mentorship.json (check your Downloads). Use 📂 Load my work next time.`);toast("Saved! Keep this file safe.");}
 function loadJSON(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d._app!=="career-mentor-prep")throw 0;
- const base=fresh();S=Object.assign(base,d);ready=false;bindAll();ready=true;markSaved("<b>Work loaded.</b> Keep going, and save again when you finish.");toast("Welcome back, "+((S.me.name||"").split(" ")[0]||"student")+"!");go(0);}
+ const base=fresh();S=Object.assign(base,d);S.sign=Object.assign(fresh().sign,d.sign||{});ready=false;bindAll();ready=true;markSaved("<b>Work loaded.</b> Keep going, and save again when you finish.");toast("Welcome back, "+((S.me.name||"").split(" ")[0]||"student")+"!");go(0);}
  catch(e){toast("This file is not a Career Mentor Prep save file.");}inp.value="";};r.readAsText(f);}
 function markDirty(){if(!ready)return;dirty=true;document.getElementById("hSave").classList.add("unsaved");
  document.getElementById("saveState").innerHTML="<b>You have unsaved changes.</b> Tap 💾 Save my work before you close this page.";}
@@ -609,16 +692,17 @@ window.addEventListener("beforeunload",e=>{if(takes.length){e.preventDefault();e
 // ---------- STEP INSTRUCTIONS ----------
 const F=x=>!!(x&&String(x).trim());
 const GUIDE={
- "s-me":{time:"About 1 minute",steps:[["Type your full name in English.",s=>F(s.me.name)],["Type your student ID.",s=>F(s.me.id)],["Write your programme or major.",s=>F(s.me.prog)],["Choose the date of your meeting.",s=>F(s.me.date)],["Tap 💾 Save my work at the top. Keep the file!",s=>savedOnce]]},
+ "s-start":{time:"Session 1 · with your mentor",steps:[["Your mentor shows you how the app works.",null],["Read how Session 1 and Session 2 work.",null],["Go to Step 1 and fill in your details.",s=>F(s.me.name)],["Tap 💾 Save my work. Keep the file safe.",()=>savedOnce],["At home: tap 📂 Load my work and finish Steps 1–7.","Use the list below to check.",s=>READY.slice(0,7).every(x=>x[2](s))]]},
+ "s-me":{time:"About 1 minute",steps:[["Type your full name in English.",s=>F(s.me.name)],["Type your student ID.",s=>F(s.me.id)],["Write your programme or major.",s=>F(s.me.prog)],["Choose the date of your Session 2 meeting.",s=>F(s.me.date)],["Tap 💾 Save my work at the top. Keep the file!",s=>savedOnce]]},
  "s-goal":{time:"About 5 minutes",steps:[["Write one job title you want.","Tap 💡 Need help? for job ideas.",s=>F(s.goal.job)],["Write the field (area of work).",s=>F(s.goal.field)],["Explain why in 1–2 sentences.","Use a sentence starter.",s=>F(s.goal.why)],["Find a real job or internship advert online.","LinkedIn, Bayt, company websites.",s=>F(s.goal.advert)],["Copy 3 skills from the advert.",s=>(s.goal.keywords||"").split(/,|\band\b/).filter(F).length>=3]]},
  "s-sum":{time:"About 7 minutes",steps:[["Write <b>Who I am</b> (1 sentence).",s=>F(s.sum.who)],["Write <b>What I bring</b>: 2 qualities + 1 skill.","Use the word bank.",s=>F(s.sum.bring)],["Write <b>What I want</b>: the job or internship.",s=>F(s.sum.want)],["Read your preview aloud. Change anything that doesn't sound like you.",s=>F(s.sum.who)&&F(s.sum.bring)&&F(s.sum.want)],["Copy the summary into the top of your CV.",null]]},
- "s-ach":{time:"About 7 minutes",steps:[["Write achievement 1.","Start with a verb: helped, won, organised…",s=>F(s.ach[0])],["Write achievement 2.",s=>F(s.ach[1])],["Write achievement 3.",s=>F(s.ach[2])],["Add a number to at least one.","People, days, AED, 1st place…",s=>s.ach.some(a=>/\d/.test(a||""))],["Write one question for your teacher.",s=>F(s.question)]]},
+ "s-ach":{time:"About 7 minutes",steps:[["Write achievement 1.","Start with a verb: helped, won, organised…",s=>F(s.ach[0])],["Write achievement 2.",s=>F(s.ach[1])],["Write achievement 3.",s=>F(s.ach[2])],["Add a number to at least one.","People, days, AED, 1st place…",s=>s.ach.some(a=>/\d/.test(a||""))],["Write one question for your mentor.",s=>F(s.question)]]},
  "s-check":{time:"About 5 minutes",steps:[["Open your CV next to this app.",null],["Read each line of the checklist.",null],["Tick only what is <b>already correct</b> in your CV.",s=>Object.values(s.check).some(Boolean)],["Fix what you can before the meeting.","Aim for 8 or more ticks.",s=>Object.values(s.check).filter(Boolean).length>=8]]},
  "s-bul":{time:"About 7 minutes",steps:[["Read the Before / After example.",null],["Bullet 1: choose a verb, write the task and the result.",s=>{const b=s.bul[0];return F(b.verb)&&F(b.task)&&F(b.result)}],["Bullet 2: do the same for another job or activity.",s=>{const b=s.bul[1];return F(b.verb)&&F(b.task)&&F(b.result)}],["Add a number in at least one bullet.",s=>s.bul.some(b=>/\d/.test((b.task||"")+(b.result||"")))],["Put your new bullets into your CV.",null]]},
  "s-pitch":{time:"About 10 minutes",steps:[["Tap <b>Use my summary + achievement 1</b>, or write the 4 parts yourself.",s=>F(s.pitch.greet)&&F(s.pitch.who)&&F(s.pitch.bring)&&F(s.pitch.want)],["Read your script aloud 2–3 times.",null],["Record yourself (audio or video).",()=>takes.length>0],["Listen back. Is it 25–45 seconds? Did you look up?",()=>takes.length>0],["Save Try 1 and rate your confidence.",s=>s.tries[1].sec&&s.tries[1].rate],["Practise again, then save Try 2.",s=>s.tries[2].sec&&s.tries[2].rate],["Download the take you like best.",()=>dlCount>0]]},
- "s-meet":{time:"In the meeting",steps:[["Bring this app to the meeting (laptop or phone).",null],["Write 2 strengths your teacher tells you.",s=>F(s.meet.s1)&&F(s.meet.s2)],["Write 2 things to fix.",s=>F(s.meet.f1)&&F(s.meet.f2)],["Copy the bullet you rewrote together.",s=>F(s.meet.rewrite)],["Choose your delivery tip.",s=>F(s.meet.tip)],["Write the answer to your question.",s=>F(s.meet.answer)]]},
+ "s-meet":{time:"In the meeting",steps:[["Load your saved file and open this page.",null],["Write 2 strengths your mentor tells you.",s=>F(s.meet.s1)&&F(s.meet.s2)],["Write 2 things to fix.",s=>F(s.meet.f1)&&F(s.meet.f2)],["Copy the bullet you rewrote together.",s=>F(s.meet.rewrite)],["Choose your delivery tip.",s=>F(s.meet.tip)],["Write the answer to your question.",s=>F(s.meet.answer)]]},
  "s-plan":{time:"End of the meeting",steps:[["Write next step 1.",s=>F(s.plan[0])],["Write next step 2.",s=>F(s.plan[1])],["Write next step 3.",s=>F(s.plan[2])],["Choose a date to visit the Career Centre.",s=>F(s.cc)]]},
- "s-copy":{time:"About 2 minutes",steps:[["Check your record. Go back and fill any empty parts.",s=>s._pct>=80],["Tap <b>Print / Save as PDF</b> and save it for your portfolio.",null],["Tap 💾 <b>Save my work</b> to keep your file.",()=>savedOnce&&!dirty],["Visit the Career Centre for your final CV check.",null]]}
+ "s-copy":{time:"Session 2 · last 2 minutes",steps:[["Check your record. Go back and fill any empty parts.",s=>s._pct>=80],["Ask your mentor to complete the sign-off.",s=>s.sign.signed],["Tap <b>Print / Save as PDF</b> and save it for your portfolio.",null],["Tap 💾 <b>Save my work</b> to keep your file.",()=>savedOnce&&!dirty],["Visit the Career Centre for your final CV check.",null]]}
 };
 let savedOnce=false,dlCount=0,guideClosed=false;
 function renderGuide(){const s=secs[cur],g=GUIDE[s.id],el=document.getElementById("guide");if(!g){el.hidden=true;return;}el.hidden=false;
@@ -630,6 +714,33 @@ function renderGuide(){const s=secs[cur],g=GUIDE[s.id],el=document.getElementByI
  <ol>${rows.map(r=>`<li class="${r.ok?"ok":""}"><span>${r.txt}${r.sub?`<small>${r.sub}</small>`:""}</span></li>`).join("")}</ol>
  <div class="gbar"><i style="width:${auto.length?Math.round(done/auto.length*100):0}%"></i></div>
  ${auto.length&&done===auto.length?`<div class="gdone">✓ Page complete! Tap Next →</div>`:`<div class="gtime" style="margin:8px 0 0">${done} of ${auto.length} done · steps tick when you complete them</div>`}`;}
+// ---------- TWO SESSIONS: READY LIST + SIGN-OFF ----------
+const TEACHER_CODE="1503"; // mentor code for signing final copies. Change it before you publish.
+const READY=[
+ ["About me (Step 1)",1,s=>F(s.me.name)&&F(s.me.id)&&F(s.me.prog)],
+ ["Career goal + advert keywords (Step 2)",2,s=>F(s.goal.job)&&F(s.goal.why)&&F(s.goal.keywords)],
+ ["Professional summary (Step 3)",3,s=>F(s.sum.who)&&F(s.sum.bring)&&F(s.sum.want)],
+ ["Three achievements + a question (Step 4)",4,s=>s.ach.every(F)&&F(s.question)],
+ ["CV self-check: 8+ ticks (Step 5)",5,s=>Object.values(s.check).filter(Boolean).length>=8],
+ ["Two CV bullets (Step 6)",6,s=>s.bul.filter(b=>F(b.verb)&&F(b.task)&&F(b.result)).length>=2],
+ ["Introduction script + Try 1 and Try 2 (Step 7)",7,s=>F(s.pitch.greet)&&F(s.pitch.bring)&&s.tries[1].sec&&s.tries[2].sec],
+ ["Work saved 💾",null,()=>savedOnce&&!dirty]
+];
+function renderReady(){const el=document.getElementById("readyList");if(!el)return;const r=READY.map(x=>[x[0],x[1],!!x[2](S)]);const n=r.filter(x=>x[2]).length;
+ el.innerHTML=r.map(x=>`<div class="ready${x[2]?" ok":""}"><i>${x[2]?"✓":""}</i><span>${esc(x[0])}</span>${x[1]&&!x[2]?`<button type="button" onclick="go(${x[1]})">Go</button>`:"<span></span>"}</div>`).join("")+
+ `<div class="readyMsg${n===r.length?" ok":""}">${n===r.length?"✓ You are ready for Session 2! Bring this app, your saved file and your CV.":`${n} of ${r.length} ready. Finish the rest before Session 2.`}</div>`;}
+function renderSign(){const st=document.getElementById("signStatus");if(!st)return;const sg=S.sign;
+ document.querySelectorAll(".sg,#sg-code").forEach(e=>e.disabled=!!sg.signed);
+ const b=document.getElementById("signBtn");b.textContent=sg.signed?"Undo sign-off":"Sign final copy";b.className=sg.signed?"btn ghost":"btn lime";
+ document.getElementById("sg-code").disabled=false;
+ st.className="signStatus"+(sg.signed?" ok":"");
+ st.innerHTML=sg.signed?`✓ Signed by ${esc(sg.mentor)} on ${esc(fmtD(sg.date))}. Your final copy is ready below. Print / Save as PDF, then tap 💾 Save my work.`:"";}
+function signOff(){const sg=S.sign,code=document.getElementById("sg-code"),st=document.getElementById("signStatus");
+ if(code.value.trim()!==TEACHER_CODE){st.className="signStatus";st.textContent="The mentor code is not correct. Only your mentor can sign.";code.focus();return;}
+ if(sg.signed){sg.signed=false;sg.date="";code.value="";markDirty();renderSign();renderSummary();toast("Sign-off removed. The record is a draft again.");return;}
+ if(!F(sg.mentor)||!F(sg.comment)){st.className="signStatus";st.textContent="Please add the mentor's name and a final comment first.";return;}
+ sg.signed=true;sg.date=new Date().toISOString().slice(0,10);code.value="";markDirty();renderSign();renderSummary();confetti();toast("✅ Final copy signed!");
+ document.getElementById("summary").scrollIntoView&&document.getElementById("summary").scrollIntoView({behavior:"smooth"});}
 let ready=false;bindAll();ready=true;go(0);
 </script>
 </body>
