@@ -19,6 +19,20 @@ header .wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-con
 header small{display:block;color:#9fd3f2;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
 header h1{margin:2px 0 0;font-size:clamp(22px,4vw,30px);line-height:1.2}
 .pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:7px 14px;font:600 14px var(--font);color:#fff;cursor:pointer}
+.hbtns{display:flex;flex-wrap:wrap;gap:8px}
+.pill.save{background:var(--sky2);border-color:var(--sky2);font-weight:700}
+.pill.save.unsaved{animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(47,155,214,.8)}50%{box-shadow:0 0 0 7px rgba(47,155,214,0)}}
+@media (prefers-reduced-motion:reduce){.pill.save.unsaved{animation:none;outline:2px solid #fff}}
+.savestate{margin-top:10px;font-size:13px;color:#e6d8cf}.savestate b{color:#9fd3f2}
+.plan2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:12px}
+.plan2 div{border-radius:12px;padding:12px 14px;border:1.5px solid var(--line);background:var(--bg)}
+.plan2 div.home{border-color:var(--sky);background:var(--skySoft)}
+.plan2 b{display:block;color:var(--esp);margin-bottom:4px}
+.where{display:inline-block;margin-left:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:6px;background:var(--esp);color:#fff;letter-spacing:.04em;vertical-align:middle}
+.where.home{background:var(--sky2)}
+.part1{border:2px solid var(--sky);background:linear-gradient(180deg,#fff,var(--skySoft))}
+.p1miss{color:var(--warn);font-weight:600;font-size:15px;margin-top:6px}
 .steps{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 2px 8px rgba(59,42,34,.06)}
 .steps .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px}
 .steps button{flex:0 0 auto;display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);color:var(--esp);border-radius:999px;padding:6px 12px 6px 6px;font:600 14px var(--font);cursor:pointer;white-space:nowrap}
@@ -122,18 +136,28 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:10px 16px 30p
 <header>
   <div class="wrap">
     <div><small>LSC 1503 · Career Mentoring</small><h1>My Career Mentoring</h1></div>
-    <button class="pill" type="button" onclick="openGloss()">EN / عربي Glossary</button>
+    <div class="hbtns">
+      <button class="pill save" type="button" id="hSave" onclick="saveJSON()">💾 Save my work</button>
+      <button class="pill save" type="button" onclick="document.getElementById('loadF').click()">📂 Load my work</button>
+      <button class="pill" type="button" onclick="openGloss()">EN / عربي Glossary</button>
+    </div>
   </div>
+  <div class="wrap"><div class="savestate" id="saveState">Working at home? Tap 💾 Save my work before you close the page.</div></div>
 </header>
+<input type="file" id="loadF" accept=".json,application/json" hidden onchange="loadJSON(this)">
 <nav class="steps" aria-label="Steps"><div class="wrap" id="tabs"></div></nav>
 
 <main class="wrap">
 
 <section id="s1" data-title="About me">
   <div class="card">
-    <span class="tag">Step 1 of 7</span>
+    <span class="tag">Step 1 of 7</span><span class="where home">At home</span>
     <h2>About me</h2>
-    <div class="todo"><b>What to do:</b> Fill this in with your mentor at the start of your 15-minute session.</div>
+    <div class="todo"><b>What to do:</b> Fill this in at home.</div>
+    <div class="plan2">
+      <div class="home"><b>🏠 At home: Steps 1–4</b>Fill in Steps 1–4. Use 💡 Need help? if you are stuck. Then download <b style="display:inline">Part 1 (PDF)</b> and tap <b style="display:inline">💾 Save my work</b>.</div>
+      <div><b>🤝 With your mentor: Steps 5–7</b>Bring your laptop or phone (and your CV if you have one). Tap <b style="display:inline">📂 Load my work</b>, then finish Steps 5–7 together. At the end, download your <b style="display:inline">full report</b>.</div>
+    </div>
     <div class="grid2">
       <div><label for="f-name">Full name</label><input id="f-name" type="text" data-k="me.name" placeholder="e.g. Mariam Ali Al Hosani"></div>
       <div><label for="f-id">Student ID</label><input id="f-id" type="text" data-k="me.id" placeholder="H00…"></div>
@@ -151,9 +175,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:10px 16px 30p
 
 <section id="s2" data-title="Career goal">
   <div class="card">
-    <span class="tag">Step 2 of 7</span>
+    <span class="tag">Step 2 of 7</span><span class="where home">At home</span>
     <h2>My career goal</h2>
-    <div class="todo"><b>What to do:</b> Tell your mentor about a job you would like in the future. You don't need to apply now.</div>
+    <div class="todo"><b>What to do:</b> Think about a job you would like in the future. You don't need to apply now. You will talk about it with your mentor.</div>
     <label for="f-job">The job I would like <span class="hint">(job title)</span></label>
     <input id="f-job" type="text" data-k="goal.job" placeholder="e.g. HR Assistant, Data Analyst, Customs Officer">
     <label for="f-field">The field / industry</label>
@@ -166,7 +190,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:10px 16px 30p
 
 <section id="s3" data-title="Summary">
   <div class="card">
-    <span class="tag">Step 3 of 7</span>
+    <span class="tag">Step 3 of 7</span><span class="where home">At home</span>
     <h2>My professional summary</h2>
     <div class="todo"><b>What to do:</b> Write the 2–3 lines that go at the top of your CV. Use the formula <b>Who I am + What I bring + What I want</b>.</div>
     <label for="f-who">Who I am</label>
@@ -184,9 +208,9 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:10px 16px 30p
 
 <section id="s4" data-title="Experience">
   <div class="card">
-    <span class="tag">Step 4 of 7</span>
+    <span class="tag">Step 4 of 7</span><span class="where home">At home</span>
     <h2>My experience and achievements</h2>
-    <div class="todo"><b>What to do:</b> Write 2–3 things you have done: college, work, volunteering, sport, clubs or a family business. Then turn one into a CV bullet.</div>
+    <div class="todo"><b>What to do:</b> Write 2–3 things you have done: college, work, volunteering, sport, clubs or a family business. Then turn one into a CV bullet. When you finish, tap <b>💾 Save my work</b>.</div>
     <label for="f-a1">Achievement 1</label><textarea id="f-a1" data-k="ach.0" placeholder="e.g. Helped organise a college event for 100+ students"></textarea>
     <label for="f-a2">Achievement 2</label><textarea id="f-a2" data-k="ach.1" placeholder="e.g. Volunteered at the Abu Dhabi Marathon for 2 days"></textarea>
     <label for="f-a3">Achievement 3 <span class="hint">(optional)</span></label><textarea id="f-a3" data-k="ach.2" placeholder="e.g. Worked in my father's shop every weekend for 1 year"></textarea>
@@ -204,11 +228,20 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:10px 16px 30p
     <div class="preview" id="bulPrev"></div>
     <div class="keys" data-keys="achievement,action verb,quantify"></div>
   </div>
+  <div class="card part1">
+    <h3>🏠 Finished Steps 1–4?</h3>
+    <p style="margin:0 0 4px">Print or download <b>Part 1: My Preparation</b> and bring it to your mentor meeting. It has space for your mentor's notes. Then save your work.</p>
+    <div id="p1missing"></div>
+    <div class="row">
+      <button class="btn sky" type="button" id="p1Btn" onclick="downloadPDF('prep')">⬇ Download Part 1 (PDF)</button>
+      <button class="btn ghost" type="button" onclick="saveJSON()">💾 Save my work</button>
+    </div>
+  </div>
 </section>
 
 <section id="s5" data-title="CV check">
   <div class="card">
-    <span class="tag">Step 5 of 7</span>
+    <span class="tag">Step 5 of 7</span><span class="where ">With mentor</span>
     <h2>CV check and feedback</h2>
     <div class="todo" id="checkTodo"><b>What to do:</b> Look at your CV with your mentor. Tick each item that is already correct.</div>
     <div id="checklist"></div>
@@ -227,7 +260,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:10px 16px 30p
 
 <section id="s6" data-title="Action plan">
   <div class="card">
-    <span class="tag">Step 6 of 7</span>
+    <span class="tag">Step 6 of 7</span><span class="where ">With mentor</span>
     <h2>My action plan</h2>
     <div class="todo"><b>What to do:</b> Agree on up to 3 actions with your mentor. Then you both confirm.</div>
     <label for="f-act1">Action 1</label><input id="f-act1" type="text" data-k="plan.0" placeholder="e.g. Write my first CV using an ATS-friendly template">
@@ -244,21 +277,21 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:10px 16px 30p
   </div>
 </section>
 
-<section id="s7" data-title="My record">
+<section id="s7" data-title="Full report">
   <div class="card">
-    <span class="tag">Step 7 of 7</span>
-    <h2>My mentoring record</h2>
+    <span class="tag">Step 7 of 7</span><span class="where ">With mentor</span>
+    <h2>My full report</h2>
     <div class="todo"><b>What to do:</b> Check your record, download the PDF, then upload it to the form. This is proof of your mentoring session.</div>
     <div id="missing"></div>
     <div class="row">
-      <button class="btn sky" type="button" id="pdfBtn" onclick="downloadPDF()">⬇ Download my record (PDF)</button>
+      <button class="btn sky" type="button" id="pdfBtn" onclick="downloadPDF()">⬇ Download full report (PDF)</button>
     </div>
   </div>
   <div class="rec" id="record"></div>
   <div class="card upload" style="margin-top:16px">
     <h3>Upload your record</h3>
     <ol>
-      <li>Tap <b>⬇ Download my record (PDF)</b>. Keep a copy for yourself.</li>
+      <li>Tap <b>⬇ Download full report (PDF)</b>. Keep a copy for yourself.</li>
       <li id="formStep">Open the upload form your mentor gives you.</li>
       <li>Fill in your details, upload the PDF and tap <b>Submit</b>.</li>
       <li>Show your mentor the "response recorded" screen.</li>
@@ -306,10 +339,11 @@ const VERBS=["Led","Created","Organised","Improved","Managed","Supported","Desig
 
 let S={me:{name:"",id:"",prog:"",mentor:"",date:new Date().toISOString().slice(0,10),cv:""},goal:{job:"",field:"",why:""},sum:{who:"",bring:"",want:""},
  ach:["","",""],bul:{verb:"",task:"",result:""},check:{},fb:{s1:"",s2:"",f1:"",f2:""},plan:["","",""],by:"",comment:"",ok:{s:false,m:false}};
-let cur=0,dirty=false,pdfCount=0;
+const S0=JSON.parse(JSON.stringify(S));let cur=0,dirty=false,pdfCount=0;
 const F=x=>!!(x&&String(x).trim());
 function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
-function markDirty(){dirty=true;}
+function markDirty(){dirty=true;const b=document.getElementById("hSave");if(b)b.classList.add("unsaved");const s=document.getElementById("saveState");if(s)s.innerHTML="<b>You have unsaved changes.</b> Tap 💾 Save my work before you close this page.";}
+function markSaved(msg){dirty=false;document.getElementById("hSave").classList.remove("unsaved");document.getElementById("saveState").innerHTML=msg;}
 function fmtD(d){if(!d)return"";const x=new Date(d+"T00:00");return isNaN(x)?"":x.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});}
 function getP(o,p){return p.split(".").reduce((a,k)=>a==null?a:a[k],o);}
 function setP(o,p,v){const k=p.split(".");let a=o;for(let i=0;i<k.length-1;i++)a=a[k[i]];a[k[k.length-1]]=v;}
@@ -328,6 +362,21 @@ function go(i){if(i<0||i>=secs.length)return;cur=i;secs.forEach((s,j)=>s.classLi
 // inputs
 document.getElementById("b-verb").innerHTML='<option value="">— choose —</option>'+VERBS.map(v=>`<option>${v}</option>`).join("");
 document.querySelectorAll("[data-k]").forEach(el=>{el.value=getP(S,el.dataset.k)||"";el.addEventListener("input",()=>{setP(S,el.dataset.k,el.value);markDirty();update();});el.addEventListener("change",()=>{setP(S,el.dataset.k,el.value);update();});});
+function bindAll(){document.querySelectorAll("[data-k]").forEach(el=>{const v=getP(S,el.dataset.k);el.value=v==null?"":v;});
+ document.querySelectorAll('input[name=cv]').forEach(r=>r.checked=r.value===S.me.cv);
+ document.querySelectorAll("#checklist input").forEach(c=>c.checked=!!S.check[c.dataset.i]);
+ document.getElementById("ok-s").checked=!!S.ok.s;document.getElementById("ok-m").checked=!!S.ok.m;update();}
+function saveJSON(){const d=JSON.parse(JSON.stringify(S));d._app="my-career-mentoring";d._saved=new Date().toISOString();
+ const nm=(S.me.name||"Student").trim().replace(/\s+/g,"_").replace(/[^\w]/g,"")||"Student",fn=nm+"_Mentoring_Work.json";
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:"application/json"}));a.download=fn;document.body.appendChild(a);a.click();
+ setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+ const t=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});markSaved(`<b>Saved at ${t}</b> as ${esc(fn)} (check your Downloads). At your meeting, tap 📂 Load my work and choose this file.`);toast("Saved! Keep this file for your meeting.");}
+function loadJSON(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d._app!=="my-career-mentoring")throw 0;
+ const base=JSON.parse(JSON.stringify(S0));["me","goal","sum","bul","fb","ok"].forEach(k=>base[k]=Object.assign(base[k],d[k]||{}));
+ ["ach","plan"].forEach(k=>{if(Array.isArray(d[k]))base[k]=[0,1,2].map(i=>d[k][i]||"");});base.check=d.check||{};base.by=d.by||"";base.comment=d.comment||"";
+ S=base;bindAll();markSaved("<b>Work loaded.</b> Continue with your mentor, and save again if you stop before the end.");
+ const first=stepDone().findIndex(x=>!x);go(first<0?6:first);toast("Welcome back, "+((S.me.name||"").split(" ")[0]||"student")+"!");}
+ catch(e){toast("This is not a My Career Mentoring save file. Choose the .json file you saved.");}inp.value="";};r.readAsText(f);}
 document.querySelectorAll('input[name=cv]').forEach(r=>r.addEventListener("change",()=>{S.me.cv=r.value;markDirty();update();}));
 document.getElementById("ok-s").onchange=e=>{S.ok.s=e.target.checked;markDirty();update();};
 document.getElementById("ok-m").onchange=e=>{S.ok.m=e.target.checked;markDirty();update();};
@@ -340,7 +389,9 @@ function stepDone(){return[F(S.me.name)&&F(S.me.mentor)&&F(S.me.cv),F(S.goal.job
  S.ach.filter(F).length>=2,F(S.fb.s1)||F(S.fb.f1),F(S.plan[0])&&S.ok.s&&S.ok.m,pdfCount>0];}
 function missing(){const m=[];if(!F(S.me.name))m.push(["Your full name",0]);if(!F(S.me.mentor))m.push(["Your mentor's name",0]);
  if(!F(S.plan[0]))m.push(["At least one action",5]);if(!S.ok.s)m.push(["Student confirmation",5]);if(!S.ok.m)m.push(["Mentor confirmation",5]);return m;}
-function update(){document.getElementById("sumPrev").textContent=summary();document.getElementById("bulPrev").textContent=bulletText(S.bul);
+function renderP1(){const m=[];if(!F(S.me.name))m.push("your name (Step 1)");if(!F(S.goal.job))m.push("a job title (Step 2)");if(!F(summary()))m.push("your summary (Step 3)");if(!S.ach.some(F))m.push("an achievement (Step 4)");
+ document.getElementById("p1missing").innerHTML=m.length?`<div class="p1miss">Still empty: ${m.join(", ")}. You can still download, but your mentor can help more if you fill these in.</div>`:"";}
+function update(){renderP1();document.getElementById("sumPrev").textContent=summary();document.getElementById("bulPrev").textContent=bulletText(S.bul);
  document.getElementById("checklist").classList.toggle("guideMode",isNew());
  document.getElementById("checkTodo").innerHTML=isNew()?"<b>What to do:</b> You don't have a CV yet, so read these 10 points with your mentor. Follow them when you write your first CV. Nothing to tick here.":"<b>What to do:</b> Look at your CV with your mentor. Tick each item that is already correct.";
  const d=stepDone();tabBtns.forEach((b,i)=>{b.classList.toggle("done",!!d[i]);b.querySelector("i").textContent=d[i]?"✓":i+1;});
@@ -351,7 +402,7 @@ function v(t){return F(t)?esc(t):'<span class="empty">—</span>';}
 function renderRecord(){const m=missing(),btn=document.getElementById("pdfBtn");btn.disabled=m.length>0;
  document.getElementById("missing").innerHTML=m.length?`<div class="missing"><b>Before you download, add:</b><ul>${m.map(x=>`<li>${x[0]} <button type="button" onclick="go(${x[1]})">Go</button></li>`).join("")}</ul></div>`:"";
  const acts=S.plan.filter(F),ach=S.ach.filter(F),bul=bulletText(S.bul);
- document.getElementById("record").innerHTML=`<div class="recHead"><small>LSC 1503 · CAREER MENTORING</small><div>Career Mentoring Record</div></div><div class="recBody">
+ document.getElementById("record").innerHTML=`<div class="recHead"><small>LSC 1503 · CAREER MENTORING</small><div>Career Mentoring Full Report</div></div><div class="recBody">
  <div class="recInfo"><p><b>Student:</b> ${v(S.me.name)}</p><p><b>Mentor:</b> ${v(S.me.mentor)}</p><p><b>Student ID:</b> ${v(S.me.id)}</p><p><b>Date:</b> ${v(fmtD(S.me.date))}</p><p><b>Programme:</b> ${v(S.me.prog)}</p><p><b>CV:</b> ${v(S.me.cv)}</p></div>
  <div class="recH">Career goal</div><p><b>Job:</b> ${v(S.goal.job)} &nbsp; <b>Field:</b> ${v(S.goal.field)}</p><p><b>Why:</b> ${v(S.goal.why)}</p>
  <div class="recH">Professional summary (for my CV)</div><div class="recSum">${v(summary())}</div>
@@ -428,7 +479,7 @@ function tw(t,size,f){if(!mctx)return t.length*size*0.52;mctx.font=(f==="B"?"bol
 function pwrap(t,size,f,maxW){const words=pclean(t).split(" ").filter(Boolean),lines=[];let cur="";
  for(const w of words){const test=cur?cur+" "+w:w;if(tw(test,size,f)<=maxW||!cur)cur=test;else{lines.push(cur);cur=w;}}if(cur)lines.push(cur);return lines.length?lines:[""];}
 
-function buildPDF(){const W=595,H=842,M=46,CW=W-2*M;const pages=[];let ops,y;
+function buildPDF(mode){const prep=mode==="prep";const W=595,H=842,M=46,CW=W-2*M;const pages=[];let ops,y;
  const C={esp:"0.231 0.165 0.133",sky:"0.184 0.608 0.839",soft:"0.902 0.953 0.984",cream:"0.980 0.965 0.945",muted:"0.478 0.416 0.376",ink:"0.165 0.133 0.118",line:"0.906 0.867 0.827",ok:"0.180 0.616 0.357",warn:"0.788 0.510 0.169",white:"1 1 1"};
  const newPage=()=>{ops=[];pages.push(ops);y=H-M;};
  const T=(x,yy,t,s,f,c)=>ops.push(`BT /${f==="B"?"F2":f==="I"?"F3":"F1"} ${s} Tf ${c||C.ink} rg ${x.toFixed(2)} ${yy.toFixed(2)} Td (${penc(t)}) Tj ET`);
@@ -442,8 +493,8 @@ function buildPDF(){const W=595,H=842,M=46,CW=W-2*M;const pages=[];let ops,y;
  const list=(arr,num)=>arr.forEach((it,i)=>{pwrap(it,SZ,"R",CW-16).forEach((ln,j)=>{need(LH);y-=LH;if(j===0)T(M+2,y,num?(i+1)+".":"•",SZ,"B",C.sky);T(M+16,y,ln,SZ,"R");});});
  newPage();
  // header
- R(0,H-84,W,84,C.esp);T(M,H-34,"LSC 1503  ·  CAREER MENTORING",8.5,"B","0.624 0.827 0.949");T(M,H-60,"Career Mentoring Record",21,"B",C.white);
- const dt=fmtD(S.me.date);if(dt){const lbl="Session date";T(W-M-tw(lbl,8.5,"B"),H-34,lbl,8.5,"B","0.624 0.827 0.949");T(W-M-tw(dt,12,"B"),H-58,dt,12,"B",C.white);}
+ R(0,H-84,W,84,C.esp);T(M,H-34,"LSC 1503  ·  CAREER MENTORING",8.5,"B","0.624 0.827 0.949");T(M,H-60,prep?"Part 1: My Preparation":"Career Mentoring Full Report",21,"B",C.white);
+ const dt=fmtD(S.me.date);if(dt){const lbl=prep?"Meeting date":"Session date";T(W-M-tw(lbl,8.5,"B"),H-34,lbl,8.5,"B","0.624 0.827 0.949");T(W-M-tw(dt,12,"B"),H-58,dt,12,"B",C.white);}
  y=H-84-12;
  // info box (two columns)
  const cw=(CW-28)/2,L=[["Student:",S.me.name],["Student ID:",S.me.id],["Programme:",S.me.prog]],Rr=[["Mentor:",S.me.mentor],["Date:",dt],["CV:",S.me.cv]];
@@ -453,6 +504,10 @@ function buildPDF(){const W=595,H=842,M=46,CW=W-2*M;const pages=[];let ops,y;
  H2("Career goal");field("Job:",S.goal.job);field("Field:",S.goal.field);field("Why:",S.goal.why);
  H2("Professional summary (for my CV)");{const ls=pwrap(F(summary())?summary():"—",10.2,"R",CW-26),bh=ls.length*14+12;need(bh+6);y-=6;R(M,y-bh,CW,bh,C.soft);R(M,y-bh,3.5,bh,C.sky);let yy=y-4;ls.forEach(ln=>{yy-=14;T(M+14,yy,ln,10.2,"R",F(summary())?C.ink:C.muted);});y-=bh;}
  H2("Experience and achievements");const ach=S.ach.filter(F);if(ach.length)list(ach,false);else field("","—");field("My CV bullet:",bulletText(S.bul));
+ if(prep){H2("Notes from my mentor meeting");const n=Math.max(6,Math.floor((y-M-60)/22));const bh=Math.min(n,12)*22+10;need(bh+8);y-=8;R(M,y-bh,CW,bh,C.white,C.line,0.8);
+  for(let i=1;i<=Math.min(n,12);i++)R(M+12,y-i*22,CW-24,0.5,C.line);y-=bh;
+  need(30);y-=22;T(M,y,"Bring this page to your meeting. Your mentor will check your CV and agree an action plan with you.",8.5,"I",C.muted);}
+ else{
  if(isNew()){H2("CV checklist to follow");need(LH*7);y-=LH;T(M,y,"Follow these points when you write your first CV.",SZ,"I",C.muted);const half=Math.ceil(CHECK.length/2),top=y;
   CHECK.forEach((c,i)=>{const col=i<half?0:1,row=col?i-half:i,yy=top-(row+1)*14.5,x=M+col*(CW/2);T(x+2,yy,(i+1)+".",SZ,"B",C.sky);T(x+18,yy,c[0],SZ,"R");});y=top-half*14.5;}
  else {H2("CV check");{const half=Math.ceil(CHECK.length/2);need(half*15+4);y-=4;const top=y;CHECK.forEach((c,i)=>{const col=i<half?0:1,row=col?i-half:i;const yy=top-(row+1)*15;const x=M+col*(CW/2);box(x,yy,!!S.check[i]);T(x+15,yy+1,c[0],SZ,"R",S.check[i]?C.ink:C.muted);});y=top-half*15;}}
@@ -466,7 +521,7 @@ function buildPDF(){const W=595,H=842,M=46,CW=W-2*M;const pages=[];let ops,y;
   box(M+12,y-22,S.ok.s);T(M+27,y-21,"Student confirmed",SZ,"B",C.esp);T(M+27,y-35,pclean(S.me.name)||"—",SZ,"R");
   box(M+half+6,y-22,S.ok.m);T(M+half+21,y-21,"Mentor confirmed",SZ,"B",C.esp);T(M+half+21,y-35,pclean(S.me.mentor)||"—",SZ,"R");
   const now=new Date(),made="Record created: "+now.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+", "+now.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
-  T(M+12,y-50,made,7.8,"I",C.muted);y-=bh;}
+  T(M+12,y-50,made,7.8,"I",C.muted);y-=bh;}}
  pages.forEach((p,i)=>{p.push(`${C.sky} rg ${M} 38 ${CW} 0.7 re f`);const keep=ops;ops=p;T(M,26,"Designed by: Nazila Motahari  ·  LSC 1503 Career Mentoring",7.8,"R",C.muted);const pg=`Page ${i+1} of ${pages.length}`;T(W-M-tw(pg,7.8,"R"),26,pg,7.8,"R",C.muted);ops=keep;});
  const objs=[],add=s=>(objs.push(s),objs.length);const cat=add(""),pid=add("");
  const font=n=>add(`<< /Type /Font /Subtype /Type1 /BaseFont /${n} /Encoding /WinAnsiEncoding >>`);const f1=font("Helvetica"),f2=font("Helvetica-Bold"),f3=font("Helvetica-Oblique");
@@ -476,10 +531,11 @@ function buildPDF(){const W=595,H=842,M=46,CW=W-2*M;const pages=[];let ops,y;
  let out="%PDF-1.4\n%âãÏÓ\n";const off=[];objs.forEach((o,i)=>{off.push(out.length);out+=`${i+1} 0 obj\n${o}\nendobj\n`;});
  const x=out.length;out+=`xref\n0 ${objs.length+1}\n0000000000 65535 f \n`+off.map(o=>String(o).padStart(10,"0")+" 00000 n \n").join("")+`trailer\n<< /Size ${objs.length+1} /Root ${cat} 0 R /Info ${info} 0 R >>\nstartxref\n${x}\n%%EOF`;
  const b=new Uint8Array(out.length);for(let i=0;i<out.length;i++)b[i]=out.charCodeAt(i)&255;return b;}
-function downloadPDF(){if(missing().length){renderRecord();return;}let bytes;try{bytes=buildPDF();}catch(e){console.error(e);toast("The PDF could not be made. Please try again.");return;}
- const nm=(S.me.name||"Student").trim().replace(/\s+/g,"_").replace(/[^\w]/g,"")||"Student",fn=`${nm}_Career_Mentoring.pdf`;
+function downloadPDF(mode){const prep=mode==="prep";if(prep&&!F(S.me.name)){renderP1();toast("Add your full name in Step 1 first.");return;}
+ if(!prep&&missing().length){renderRecord();return;}let bytes;try{bytes=buildPDF(mode);}catch(e){console.error(e);toast("The PDF could not be made. Please try again.");return;}
+ const nm=(S.me.name||"Student").trim().replace(/\s+/g,"_").replace(/[^\w]/g,"")||"Student",fn=prep?`${nm}_Mentoring_Part1_Preparation.pdf`:`${nm}_Mentoring_Full_Report.pdf`;
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([bytes],{type:"application/pdf"}));a.download=fn;document.body.appendChild(a);a.click();
- setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);pdfCount++;dirty=false;update();toast("Downloaded: "+fn+". Now upload it to the form.");}
+ setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);if(!prep)pdfCount++;update();toast(prep?"Downloaded: "+fn+". Now tap 💾 Save my work.":"Downloaded: "+fn+". Now upload it to the form.");}
 
 // glossary + toast
 function openGloss(){document.getElementById("glTable").innerHTML=Object.entries(GL).map(([e,a])=>`<tr><td><b>${esc(e)}</b></td><td>${a}</td></tr>`).join("");document.getElementById("gloss").hidden=false;}
